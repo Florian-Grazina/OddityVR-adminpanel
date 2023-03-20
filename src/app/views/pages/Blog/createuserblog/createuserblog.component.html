@@ -1,0 +1,80 @@
+<section>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">New author creation</h6>
+          <form (ngSubmit)="creatAuthor()" [formGroup]="creationFormAuthor" class="forms-sample">
+            
+            <div class="row mb-3">
+              <label for="first-name" class="col-sm-3 col-form-label">Prénom</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="first-name" formControlName="FirstName" placeholder="Prénom">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="name" class="col-sm-3 col-form-label">Nom de Famille</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="name" formControlName="Name" placeholder="Nom de Famille">
+              </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="sex" class="form-label">Genre</label>
+                <select class="form-select" id="sex" formControlName="Sex" >
+                  <option selected value="M">Homme</option>
+                  <option value="F">Femme</option>
+                  <option value="Other">Autre</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary me-2">Submit</button>
+            <button class="btn btn-secondary">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title">List of authors</h6>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name Author</th>
+                    <th>Firstname Author</th>
+                    <th>Sex</th>
+                    <th>Creation Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listOfAuthors let index = index">
+                    <td>{{index+1}}</td>
+                    <td>{{item.ID}}</td>
+                    <td>{{item.Name}}</td>
+                    <td>{{item.FirstName}}</td>
+                    <td>{{item.Sex}}</td>
+                    <td>{{item.CreationDate}}</td>
+                    <td><a type="button" (click)="deleteAuthor(item)" class="btn btn-outline-danger me-2">Delete</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
