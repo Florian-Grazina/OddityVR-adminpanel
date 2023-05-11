@@ -23,3 +23,16 @@ export interface Article {
     FirstName: string,
     Author: number
 }
+
+export interface FormUser{
+    Email: string,
+    Password: string,
+    Age: number
+}
+
+export interface User{
+    ID: number,
+    Email: string,
+    Password: string,
+    Age: number
+}

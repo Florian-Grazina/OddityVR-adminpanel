@@ -164,9 +164,13 @@ export class CrudBlogComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         
+        this.listOfArticles = this.listOfArticles.filter(h => h !== article)
+
       this.blogS.deleteArticle(article)
       .subscribe(result => {
-      this.listOfArticles = result;
+
+        if (result)
+        
       Swal.fire(
         'Deleted!',
         'Your file has been deleted.',

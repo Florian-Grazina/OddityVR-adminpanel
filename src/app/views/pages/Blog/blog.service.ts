@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Blog, FormAuthor, Author, Article } from './model/blog';
+import { Blog, FormAuthor, Author, Article, FormUser, User } from './model/blog';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
@@ -11,11 +11,15 @@ export class BlogService {
 
   constructor(private httpClient: HttpClient) { }
 
+  createUser(form: FormUser){
+
+    return this.httpClient.post<User[]>("http://localhost:8081/api/v1/create_user", form)
+  }
 
   // CRUD author
   // ------------------------------
 
-  postCreateAuthor(form: Author){
+  postCreateAuthor(form: FormAuthor){
     
     return this.httpClient.post<Author[]>("http://localhost:8081/api/v1/create_author", form)
   }
@@ -31,7 +35,7 @@ export class BlogService {
   }
 
 
-  // CRUD author
+  // CRUD article
   // ------------------------------
 
   postCreateArticle(form: Article){
@@ -53,5 +57,27 @@ export class BlogService {
   deleteArticle(article: Article){
     
     return this.httpClient.get<Article[]>(`http://localhost:8081/api/v1/delete_article/${article.ID}`)
+  }
+
+
+  // Utilities popup
+  // ------------------------------
+
+  popUpSuccess(message: string){
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 1500})
+  }
+
+  popUpError(message: string){
+    Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 1500})
   }
 }

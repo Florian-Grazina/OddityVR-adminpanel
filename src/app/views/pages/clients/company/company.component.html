@@ -1,0 +1,101 @@
+<section>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">New company creation</h6>
+          <form (ngSubmit)="checkForm()" [formGroup]="creationFormCompany" class="forms-sample">
+            
+            <div class="row mb-3">
+              <label for="name" class="col-sm-3 col-form-label">Company Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Company Name">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="street-number" class="col-sm-3 col-form-label">Number</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="street-number" formControlName="number" placeholder="Street Number">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="street" class="col-sm-3 col-form-label">Street</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="street" formControlName="street" placeholder="Address">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="city" class="col-sm-3 col-form-label">City</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="city" formControlName="city" placeholder="City">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="postal-code" class="col-sm-3 col-form-label">Postal Code</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="postal-code" formControlName="postalCode" placeholder="Postal Code">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="country" class="col-sm-3 col-form-label">Country</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="country" formControlName="country" placeholder="Country">
+              </div>
+            </div>
+          
+            <button type="submit" class="btn btn-primary me-2">Submit</button>
+            <button class="btn btn-secondary">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title">List of Companies</h6>
+  
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Street</th>
+                      <th>City</th>
+                      <th>Postal Code</th>
+                      <th>Country</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let company of listOfCompanies let index = index">
+                      <td>{{index+1}}</td>
+                      <td>{{company.id}}</td>
+                      <td>{{company.name}}</td>
+                      <td>{{company.street}}</td>
+                      <td>{{company.city}}</td>
+                      <td>{{company.postalCode}}</td>
+                      <td>{{company.country}}</td>
+                      <td><a type="button" (click)="deleteCompany(company)" class="btn btn-outline-danger me-2">Delete</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

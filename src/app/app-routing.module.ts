@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('./views/pages/Blog/blog.module').then(m => m.BlogModule)
       },
       {
+        path: 'clients',
+        loadChildren: () => import('./views/pages/clients/clients.module').then(m => m.ClientsModule)
+      },
+      {
         path: 'apps',
         loadChildren: () => import('./views/pages/apps/apps.module').then(m => m.AppsModule)
       },

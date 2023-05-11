@@ -25,6 +25,8 @@ export class CreateuserblogComponent implements OnInit {
 
     this.blogS.getAllAuthors().subscribe(result => {
       this.listOfAuthors = result;
+      console.log(result);
+      
     });
   }
 

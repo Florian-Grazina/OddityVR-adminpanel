@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CrudBlogComponent } from './crud-blog/crud-blog.component'
 import { QuillModule } from 'ngx-quill';
+import { CrudUserComponent } from './crud-user/crud-user.component';
 
 
 
@@ -23,13 +24,17 @@ const routes: Routes = [
       {
         path: 'crud-blog',
         component: CrudBlogComponent
+      },
+      {
+        path: 'crud-user',
+        component: CrudUserComponent
       }
     ]
   }
 ]
 
 @NgModule({
-  declarations: [BlogComponent, CreateuserblogComponent, CrudBlogComponent],
+  declarations: [BlogComponent, CreateuserblogComponent, CrudBlogComponent, CrudUserComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

@@ -27,6 +27,21 @@ export const MENU: MenuItem[] = [
         label: 'CRUD Blog',
         link: '/Blog/crud-blog',
       }
+      ,
+      {
+        label: 'CRUD User',
+        link: '/Blog/crud-user',
+      }
+    ]
+  },
+  {
+    label: 'clients',
+    icon: 'message-square',
+    subItems: [
+      {
+        label: 'company',
+        link: '/clients/company',
+      }
     ]
   },
   {

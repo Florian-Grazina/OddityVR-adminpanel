@@ -1,0 +1,27 @@
+<section class="d-flex justify-content-center">
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+
+        <h6 class="card-title">Create user</h6>
+
+        <form (ngSubmit)="createUser()" [formGroup]="creationFormUser" class="forms-sample">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="text" class="form-control" id="email" autocomplete="off" formControlName="Email" placeholder="Email">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="email" class="form-control" id="password" placeholder="Password" formControlName="Password">
+          </div>
+          <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="text" class="form-control" id="age" autocomplete="off" formControlName="Age" placeholder="Age">
+          </div>
+          <button type="submit" class="btn btn-primary me-2">Submit</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
