@@ -1,10 +1,14 @@
+<!-- -------------------------------------------------------------
+Creation form
+------------------------------------------------------------- -->
+
 <section>
   <div class="row d-flex justify-content-center">
-    <div class="col-md-6 grid-margin stretch-card">
+    <div class="col-md-9 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
           <h6 class="card-title">New company creation</h6>
-          <form (ngSubmit)="checkForm()" [formGroup]="creationFormCompany" class="forms-sample">
+          <form (ngSubmit)="createCompany()" [formGroup]="creationCompanyForm" class="forms-sample">
             
             <div class="row mb-3">
               <label for="name" class="col-sm-3 col-form-label">Company Name</label>
@@ -57,45 +61,120 @@
   </div>
 </section>
 
+<!-- -------------------------------------------------------------
+List companies
+------------------------------------------------------------- -->
+
 <section>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">
-          <div class="card">
-            <div class="card-body">
-              <h6 class="card-title">List of Companies</h6>
-  
-              <div class="table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Street</th>
-                      <th>City</th>
-                      <th>Postal Code</th>
-                      <th>Country</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let company of listOfCompanies let index = index">
-                      <td>{{index+1}}</td>
-                      <td>{{company.id}}</td>
-                      <td>{{company.name}}</td>
-                      <td>{{company.street}}</td>
-                      <td>{{company.city}}</td>
-                      <td>{{company.postalCode}}</td>
-                      <td>{{company.country}}</td>
-                      <td><a type="button" (click)="deleteCompany(company)" class="btn btn-outline-danger me-2">Delete</a></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-  
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title">List of Companies</h6>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>Postal<br/>Code</th>
+                    <th>Country</th>
+                    <th>Nb of<br/>departments</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let company of listOfCompanies let index = index">
+                    <td>{{index+1}}</td>
+                    <td>{{company.id}}</td>
+                    <td>{{company.name}}</td>
+                    <td>{{company.street}}</td>
+                    <td>{{company.city}}</td>
+                    <td>{{company.postalCode}}</td>
+                    <td>{{company.country}}</td>
+                    <td>{{company.numberOfDepartments}}</td>
+                    <td><a type="button" routerLink="/clients/company-details//{{company.id}}" class="btn btn-outline-success">Details</a></td>
+                    <td><a type="button" (click)="openXlModal(updateModal); initUpdateForm(company, index)" class="btn btn-outline-warning">Update</a></td>
+                    <td><a type="button" (click)="deleteCompany(company)" class="btn btn-outline-danger">Delete</a></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<!-- -------------------------------------------------------------
+Update company
+------------------------------------------------------------- -->
+
+<section>
+  <ng-template #updateModal let-modal>
+
+    <div class="modal-header">
+      <h6 class="card-title">Update company</h6>
+      <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="updateCompany(); modal.close('by: close button')" [formGroup]="updateCompanyForm" class="forms-sample">
+  
+        <div class="row mb-3">
+          <label for="name" class="col-sm-3 col-form-label">Name</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="name" formControlName="name">
+          </div>
+        </div>
+  
+        <div class="row mb-3">
+          <label for="number" class="col-sm-3 col-form-label">Number</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="number" formControlName="number">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="street" class="col-sm-3 col-form-label">Street</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="street" formControlName="street">
+          </div>
+        </div>
+  
+        <div class="row mb-3">
+          <label for="city" class="col-sm-3 col-form-label">City</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="city" formControlName="city">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="postalCode" class="col-sm-3 col-form-label">Postal Code</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="country" class="col-sm-3 col-form-label">Country</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="country" formControlName="country">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary me-2">Submit</button>
+        <button class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
+      </form>
+    </div>
+  </ng-template>
+</section>

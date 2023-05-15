@@ -1,9 +1,11 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientsComponent } from './clients.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CompanyComponent } from './company/company.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CompanyDetailsComponent } from './company-details/company-details.component';
+// import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 const routes: Routes = [
@@ -13,7 +15,11 @@ const routes: Routes = [
     children: [
       {
         path: 'company',
-        component: CompanyComponent
+        component: CompanyComponent,
+      },
+      {
+        path: 'company-details/:id',
+        component: CompanyDetailsComponent,
       }
     ]
   }
@@ -22,13 +28,14 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ClientsComponent,
-    CompanyComponent
+    CompanyComponent,
+    CompanyDetailsComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class ClientsModule { }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ClientsService } from '../clients.service';
 import { Company } from '../model/company.model';
@@ -11,7 +11,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./company.component.scss']
 })
 export class CompanyComponent implements OnInit {
-  creationFormCompany: FormGroup;
+  creationCompanyForm: FormGroup;
+  updateCompanyForm: FormGroup;
   listOfCompanies: Company[];
 
   constructor(
@@ -19,8 +20,8 @@ export class CompanyComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.creationFormCompany = this.formBuilder.group({
-      name:"",
+    this.creationCompanyForm = this.formBuilder.group({
+      name: "",
       number:"",
       street:"",
       city:"",
@@ -28,65 +29,105 @@ export class CompanyComponent implements OnInit {
       country:""
     })
 
-    this.clientsService.getAllCompanies().subscribe(result => {
-      this.listOfCompanies = result;
-    })
+    this.clientsService.getAllCompanies()
+      .subscribe(result => this.listOfCompanies = result)
   }
 
 
   // Create
   // ----------------------
 
-  checkForm() {
+  checkForm(form: FormGroup) {
     // verify all fields
-    if(Object.values(this.creationFormCompany.value).some((elem: any) => elem == "")){
+    if(Object.values(form.value).some((elem: any) => elem == "")){
       return this.clientsService.popUpError("The form is incomplete");
     };
-    if (this.creationFormCompany.value["name"].length > 50){
+    if (form.value["name"].length > 50){
       return this.clientsService.popUpError("The name can't exceed 50 characters");
     };
-    if (this.creationFormCompany.value["number"].length > 10){
+    if (form.value["number"].length > 10){
       return this.clientsService.popUpError("The number can't exceed 10 characters");
     };
-    if (this.creationFormCompany.value["street"].length > 100){
+    if (form.value["street"].length > 100){
       return this.clientsService.popUpError("The street can't exceed 100 characters");
     };
-    if (this.creationFormCompany.value["city"].length > 50){
+    if (form.value["city"].length > 50){
       return this.clientsService.popUpError("The city can't exceed 50 characters");
     };
-    if (this.creationFormCompany.value["postalCode"].length > 10){
+    if (form.value["postalCode"].length > 10){
       return this.clientsService.popUpError("The postal code can't exceed 10 characters");
     };
-    if (this.creationFormCompany.value["country"].length > 50){
+    if (form.value["country"].length > 50){
       return this.clientsService.popUpError("The country can't exceed 50 characters");
     };
-    this.createCompany();
+    return true;
   }
 
   createCompany(){
-    this.clientsService.postCreateCompany(this.creationFormCompany.value)
-    .subscribe(result => {
-  
-      // verify that the post has been successful
-      if (result.id != 0){
-        this.creationFormCompany.reset();
-        this.clientsService.popUpSuccess("The Company has been created");
-        this.listOfCompanies.push(result);
-      }
-      else{
-        this.clientsService.popUpError("Something went wrong, please try again");
-      }
-    })
+    if (this.checkForm(this.creationCompanyForm)){
+
+      this.clientsService.postCreateCompany(this.creationCompanyForm.value)
+      .subscribe(result => {
+    
+        // verify that the post has been successful
+        if (result.id != 0){
+          this.creationCompanyForm.reset();
+          this.listOfCompanies.push(result);
+          this.clientsService.popUpSuccess("The company has been created")
+          
+          // creation of a dummy department
+          // this.clientsService.crea
+        }
+        else{
+          this.clientsService.popUpError("Something went wrong, please try again");
+        }
+      })
+    }
   }
 
-  
   // Read
   // ----------------------
 
+  // Update
+  // ----------------------
+
+  openXlModal(content: TemplateRef<any>) {
+    this.clientsService.openXlModal(content);
+  }
   
 
+  initUpdateForm(company: Company, index: number){
+    this.updateCompanyForm = this.formBuilder.group({
+      index: index,
+      id: [company.id],
+      name: [company.name],
+      number: [company.number],
+      street: [company.street],
+      city: [company.city],
+      postalCode: [company.postalCode],
+      country: [company.country]
+    })
+  }
+
+  updateCompany(){
+    if(this.checkForm(this.updateCompanyForm)){
+
+      this.clientsService.putUpdateCompany(this.updateCompanyForm.value)
+        .subscribe(result => this.listOfCompanies[this.updateCompanyForm.value.index] = result)
+    }
+  }
+
+
+
+  // Delete
+  // ----------------------
 
   deleteCompany(companyToDelete: Company){
+
+    if(companyToDelete.numberOfDepartments > 0){
+      this.clientsService.popUpError("Departments are affected to the company.\nYou need to delete them first");
+      return
+    }
 
     Swal.fire({
       title: 'Are you sure?',
@@ -104,7 +145,7 @@ export class CompanyComponent implements OnInit {
       
       .subscribe(result => {
         this.listOfCompanies = this.listOfCompanies.filter(company => company != companyToDelete);
-        this.clientsService.popUpSuccess(`Company id ${companyToDelete.id} has been deleted`)})
+        this.clientsService.lilSuccess(`The Company ${companyToDelete.name} has been deleted`)})
       }
     })
   }
