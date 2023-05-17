@@ -1,3 +1,7 @@
+<div class="mb-4">
+  <h2>CLIENTS</h2>
+</div>
+
 <!-- -------------------------------------------------------------
 Creation form
 ------------------------------------------------------------- -->
@@ -115,6 +119,8 @@ List companies
   </div>
 </section>
 
+
+
 <!-- -------------------------------------------------------------
 Update company
 ------------------------------------------------------------- -->
@@ -177,4 +183,28 @@ Update company
       </form>
     </div>
   </ng-template>
+</section>
+
+
+<!-- -------------------------------------------------------------
+Loader
+------------------------------------------------------------- -->
+
+<section>
+  <div *ngIf="isLoading" class="card row">
+    <div class="col-md-12 stretch-card">
+        <div class="card-body d-flex align-items-center">
+          <strong>Loading...</strong>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+    </div>
+  </div>
+
+  <div *ngIf="retryFetch" class="card row">
+    <div class="col-md-12 stretch-card">
+        <div class="card-body d-flex align-items-center">
+          <a type="button" (click)="getAllCompanies()" class="btn btn-outline-info">Retry</a>
+        </div>
+    </div>
+  </div>
 </section>

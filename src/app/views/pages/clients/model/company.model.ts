@@ -1,3 +1,5 @@
+// Company
+// ------------------
 export interface Company {
     id: number,
     name: string,
@@ -28,7 +30,8 @@ export interface FormUpdateCompany {
     country: string
 }
 
-
+// Department
+// ------------------
 export interface Department {
     id: number,
     name: string,
@@ -45,4 +48,38 @@ export interface FormUpdateDepartment {
     id: number,
     name: string,
     companyId: number
+}
+
+
+
+// Users
+// ------------------
+export interface User {
+    id: number,
+    email: string,
+    password: string,
+    birthdate: Date,
+    lastConnection?: Date
+}
+
+export interface FormCreateUser {
+    email: string,
+    password: string,
+    birthdate: Date,
+}
+
+export interface FormUpdateUser {
+    index: number,
+    id: number,
+    email: string,
+    password: string,
+    birthdate: Date,
+}
+
+
+// Forms
+// ------------------
+
+export interface FormField {
+    [name: string] : number
 }

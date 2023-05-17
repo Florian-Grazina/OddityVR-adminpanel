@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Company, Department } from '../model/company.model';
+import { Company, Department, FormField } from '../model/company.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientsService } from '../clients.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -16,6 +16,8 @@ export class CompanyDetailsComponent implements OnInit {
   listOfDepartments: Department[];
   creationDepartmentForm: FormGroup;
   updateDepartmentForm: FormGroup;
+  isLoading: boolean;
+  retryFetch: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,48 +32,76 @@ export class CompanyDetailsComponent implements OnInit {
   // Create
   // ----------------------
 
-  initCreateForm(){
+  initCreateForm(): void{
     this.creationDepartmentForm = this.formBuilder.group({
       companyId: [this.company.id],
       name: ""
     })
   }
 
-  createDepartment(){
-    this.clientsService.postCreateDepartment(this.creationDepartmentForm.value)
-    .subscribe(result => {
-  
-      // verify that the post has been successful
-      if (result.id != 0){
-        this.creationDepartmentForm.reset();
-        this.listOfDepartments.push(result);
-        this.clientsService.popUpSuccess("The Department has been created")
-        
-      }
-      else{
-        this.clientsService.popUpError("Something went wrong, please try again");
-      }
-    })
+  createDepartment(): void{
+    if (this.checkForm(this.creationDepartmentForm)){
+
+      this.clientsService.postCreateDepartment(this.creationDepartmentForm.value)
+      .subscribe(result => {
+    
+        // verify that the post has been successful
+        if (result.id != 0){
+          this.creationDepartmentForm.reset();
+          this.listOfDepartments.push(result);
+          this.clientsService.popUpSuccess("The Department has been created")
+          
+        }
+        else{
+          this.clientsService.popUpError("Something went wrong, please try again");
+        }
+      })
+    }
   }
 
   // Read
   // ----------------------
 
   getCompany(): void {
+    this.retryFetch = false;
+    this.isLoading = true;
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.clientsService.getCompanyById(id)
-      .subscribe(result =>{
-        this.company = result
-        this.clientsService.getDepartmentsByCompanyId(result.id)
-        .subscribe(result => this.listOfDepartments = result)
+
+    this.clientsService.getCompanyById(id).subscribe({
+      next: (result) => {
+        this.isLoading = false;
+        this.company = result;
+        
+        // get departments once the company is fetched
+        this.getDepartmentsByCompanyId(result);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.retryFetch = true;
+        this.clientsService.popUpError("An error has occured, please try reloading")
       }
-    );
+    });
+  }
+
+  getDepartmentsByCompanyId(result: Company): void{
+    this.clientsService.getDepartmentsByCompanyId(result.id).subscribe({
+      next: (result) => {
+        this.isLoading = false;
+        this.listOfDepartments = result
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.retryFetch = true;
+        this.clientsService.popUpError("An error has occured, please try reloading")
+      }
+    });
   }
 
   // Update
   // ----------------------
 
-  initUpdateForm(department: Department, index: number){
+  initUpdateForm(department: Department, index: number): void{
     this.updateDepartmentForm = this.formBuilder.group({
       index: index,
       id: [department.id],
@@ -80,15 +110,28 @@ export class CompanyDetailsComponent implements OnInit {
     })
   }
 
-  updateDepartment(){
-    this.clientsService.putUpdateDepartment(this.updateDepartmentForm.value)
-      .subscribe(result => this.listOfDepartments[this.updateDepartmentForm.value.index] = result);
+  updateDepartment(): void{
+    if(this.checkForm(this.updateDepartmentForm)){
+
+      this.clientsService.putUpdateDepartment(this.updateDepartmentForm.value)
+      .subscribe(result => {
+
+        // verify the update has been successful
+        if(result.id != 0){
+          this.listOfDepartments[this.updateDepartmentForm.value.index] = result;
+          this.clientsService.lilSuccess("The department has been updated")
+        }
+        else {
+          this.clientsService.popUpError("Something went wrong, please try again")
+        }
+      })
+    }
   }
   
   // Delete
   // ----------------------
 
-  deleteDepartment(departmentToDelete: Department){
+  deleteDepartment(departmentToDelete: Department): void{
 
     if(departmentToDelete.numberOfEmployees > 0){
       this.clientsService.popUpError("Employees are affected to the department.\nYou need to delete them first");
@@ -117,11 +160,19 @@ export class CompanyDetailsComponent implements OnInit {
     })
   }
 
-  // Modal
+  // Utilies
   // ----------------------
 
-  openXlModal(content: TemplateRef<any>) {
+  openXlModal(content: TemplateRef<any>): void{
     this.clientsService.openXlModal(content);
   }
-  
+
+
+  checkForm(form: FormGroup): boolean{
+    var options: FormField = {
+      "name" : 50
+    }
+
+    return this.clientsService.checkForm(form, options)
+  }
 }

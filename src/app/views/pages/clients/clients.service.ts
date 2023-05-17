@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, TemplateRef } from '@angular/core';
-import { Company, Department, FormCreateCompany, FormCreateDepartment, FormUpdateCompany, FormUpdateDepartment } from './model/company.model';
+import { Company, Department, FormCreateCompany, FormCreateDepartment, FormField, FormUpdateCompany, FormUpdateDepartment, User} from './model/company.model';
 import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -47,6 +47,10 @@ export class ClientsService {
     return this.httpClient.post<Department>("https://localhost:7233/api/department/create", form);
   }
 
+  getDepartmentById(id: number): Observable<Department>{
+    return this.httpClient.get<Department>(`https://localhost:7233/api/department/get/${id}`);
+  }
+
   getDepartmentsByCompanyId(id: number): Observable<Department[]>{
       return this.httpClient.get<Department[]>(`https://localhost:7233/api/department/get_all_from_company/${id}`)
   }
@@ -59,10 +63,30 @@ export class ClientsService {
     return this.httpClient.delete(`https://localhost:7233/api/department/delete/${department.id}`);
   }
 
-  // Utilities
+
+  // CRUD Users
+  // -----------------
+
+  // postCreateDepartment(form: FormCreateDepartment): Observable<Department>{
+  //   return this.httpClient.post<Department>("https://localhost:7233/api/department/create", form);
+  // }
+
+  getUsersByDepartmentId(id: number): Observable<User[]>{
+      return this.httpClient.get<User[]>(`https://localhost:7233/api/user/get_all_from_department/${id}`)
+  }
+
+  // putUpdateDepartment(form: FormUpdateDepartment): Observable<Department>{
+  //   return this.httpClient.put<Department>("https://localhost:7233/api/department/update", form);
+  // }
+
+  // deleteDepartment(department: Department){
+  //   return this.httpClient.delete(`https://localhost:7233/api/department/delete/${department.id}`);
+  // }
+
+  // Utilities - Alerts
   //-----------------
   
-  lilSuccess(message: string){
+  lilSuccess(message: string): void{
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -81,7 +105,7 @@ export class ClientsService {
     })
   }
 
-  popUpSuccess(message: string){
+  popUpSuccess(message: string): void{
     Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -90,7 +114,7 @@ export class ClientsService {
       timer: 1500})
   }
 
-  popUpError(message: string){
+  popUpError(message: string): void{
     Swal.fire({
       position: 'top-end',
       icon: 'error',
@@ -99,9 +123,36 @@ export class ClientsService {
       timer: 2500})
   }
   
-  openXlModal(content: TemplateRef<any>) {
+
+  // Utilities - Forms
+  //-----------------
+  
+  openXlModal(content: TemplateRef<any>): void {
     this.modalService.open(content, {size: 'xl'}).result.then((result) => {
       console.log("Modal closed" + result);
     }).catch((res) => {});
+  }
+
+  checkForm(form: FormGroup, options: FormField): boolean{
+    let errorMessage = "";
+
+    if(Object.values(form.value).some((elem: any) => String(elem) == "")){
+      this.popUpError("The form is incomplete");
+      return false;
+    };
+
+    for(var key in options){
+      if(form.value[key].length > options[key]){
+        errorMessage += `${key} can't exceed ${options[key]} char\n`;
+      }
+    }
+
+    if (errorMessage == ""){
+      return true;
+    }
+    else {
+      this.popUpError(errorMessage);
+      return false;
+    }
   }
 }

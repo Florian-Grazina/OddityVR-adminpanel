@@ -1,0 +1,36 @@
+<div class="mb-4">
+	<h2>DEPARTMENT</h2>
+</div>
+
+<!-- -------------------------------------------------------------
+Department details
+------------------------------------------------------------- -->
+
+<section>
+	<div *ngIf="department" class="row d-flex justify-content-center">
+		<div class="col-md-9 grid-margin stretch-card">
+			<div class="card">
+				<div class="card-body">
+					<h6 class="card-title">Department details</h6>
+						
+					<div class="row mb-3">
+						<p class="col-sm-4 col-form-p">ID</p>
+						<p class="col-sm-8 border">{{department.id}}</p>
+					</div>
+
+					<div class="row mb-3">
+						<p class="col-sm-4 col-form-p">Name</p>
+						<p class="col-sm-8 border">{{department.name}}</p>
+					</div>
+
+					<div class="row mb-3">
+						<p class="col-sm-4 col-form-p">Number of employees</p>
+						<p class="col-sm-8 border">{{department.numberOfEmployees}}</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+

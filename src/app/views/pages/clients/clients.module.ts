@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CompanyComponent } from './company/company.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
-// import {MatFormFieldModule} from '@angular/material/form-field';
+import { DepartmentDetailsComponent } from './department-details/department-details.component';
 
 
 const routes: Routes = [
@@ -20,6 +20,10 @@ const routes: Routes = [
       {
         path: 'company-details/:id',
         component: CompanyDetailsComponent,
+      },
+      {
+        path: 'department-details/:id',
+        component: DepartmentDetailsComponent,
       }
     ]
   }
@@ -30,6 +34,7 @@ const routes: Routes = [
     ClientsComponent,
     CompanyComponent,
     CompanyDetailsComponent,
+    DepartmentDetailsComponent,
   ],
   imports: [
     CommonModule,

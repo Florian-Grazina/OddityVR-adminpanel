@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ClientsService } from '../clients.service';
-import { Company } from '../model/company.model';
+import { Company, FormField } from '../model/company.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,6 +14,8 @@ export class CompanyComponent implements OnInit {
   creationCompanyForm: FormGroup;
   updateCompanyForm: FormGroup;
   listOfCompanies: Company[];
+  isLoading: boolean;
+  retryFetch: boolean;
 
   constructor(
     private clientsService: ClientsService,
@@ -26,44 +28,16 @@ export class CompanyComponent implements OnInit {
       street:"",
       city:"",
       postalCode:"",
-      country:""
-    })
-
-    this.clientsService.getAllCompanies()
-      .subscribe(result => this.listOfCompanies = result)
+      country:"",
+    });
+    this.getAllCompanies();
   }
 
 
   // Create
   // ----------------------
 
-  checkForm(form: FormGroup) {
-    // verify all fields
-    if(Object.values(form.value).some((elem: any) => elem == "")){
-      return this.clientsService.popUpError("The form is incomplete");
-    };
-    if (form.value["name"].length > 50){
-      return this.clientsService.popUpError("The name can't exceed 50 characters");
-    };
-    if (form.value["number"].length > 10){
-      return this.clientsService.popUpError("The number can't exceed 10 characters");
-    };
-    if (form.value["street"].length > 100){
-      return this.clientsService.popUpError("The street can't exceed 100 characters");
-    };
-    if (form.value["city"].length > 50){
-      return this.clientsService.popUpError("The city can't exceed 50 characters");
-    };
-    if (form.value["postalCode"].length > 10){
-      return this.clientsService.popUpError("The postal code can't exceed 10 characters");
-    };
-    if (form.value["country"].length > 50){
-      return this.clientsService.popUpError("The country can't exceed 50 characters");
-    };
-    return true;
-  }
-
-  createCompany(){
+  createCompany(): void{
     if (this.checkForm(this.creationCompanyForm)){
 
       this.clientsService.postCreateCompany(this.creationCompanyForm.value)
@@ -74,9 +48,6 @@ export class CompanyComponent implements OnInit {
           this.creationCompanyForm.reset();
           this.listOfCompanies.push(result);
           this.clientsService.popUpSuccess("The company has been created")
-          
-          // creation of a dummy department
-          // this.clientsService.crea
         }
         else{
           this.clientsService.popUpError("Something went wrong, please try again");
@@ -88,15 +59,29 @@ export class CompanyComponent implements OnInit {
   // Read
   // ----------------------
 
+  getAllCompanies(): void{
+    this.retryFetch = false;
+    this.isLoading = true;
+
+    this.clientsService.getAllCompanies().subscribe({
+      next: (result) => {
+        this.isLoading = false;
+        this.listOfCompanies = result;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.retryFetch = true;
+        this.clientsService.popUpError("An error has occured, please try reloading")
+      }
+    })
+  }
+      
+      
+
   // Update
   // ----------------------
 
-  openXlModal(content: TemplateRef<any>) {
-    this.clientsService.openXlModal(content);
-  }
-  
-
-  initUpdateForm(company: Company, index: number){
+  initUpdateForm(company: Company, index: number): void{
     this.updateCompanyForm = this.formBuilder.group({
       index: index,
       id: [company.id],
@@ -109,20 +94,30 @@ export class CompanyComponent implements OnInit {
     })
   }
 
-  updateCompany(){
+  updateCompany(): void{
+    console.log(this.updateCompanyForm.value);
+    
     if(this.checkForm(this.updateCompanyForm)){
 
       this.clientsService.putUpdateCompany(this.updateCompanyForm.value)
-        .subscribe(result => this.listOfCompanies[this.updateCompanyForm.value.index] = result)
+      .subscribe(result => {
+
+        // verify that the update has been successful
+        if (result.id != 0){
+          this.listOfCompanies[this.updateCompanyForm.value.index] = result;
+          this.clientsService.lilSuccess("The company has been updated")
+        }
+        else {
+          this.clientsService.popUpError("Something went wrong, please try again");
+        }
+      })
     }
   }
-
-
 
   // Delete
   // ----------------------
 
-  deleteCompany(companyToDelete: Company){
+  deleteCompany(companyToDelete: Company): void{
 
     if(companyToDelete.numberOfDepartments > 0){
       this.clientsService.popUpError("Departments are affected to the company.\nYou need to delete them first");
@@ -148,5 +143,26 @@ export class CompanyComponent implements OnInit {
         this.clientsService.lilSuccess(`The Company ${companyToDelete.name} has been deleted`)})
       }
     })
+  }
+
+
+  // Utilities
+  // ----------------------
+
+  openXlModal(content: TemplateRef<any>): void {
+    this.clientsService.openXlModal(content);
+  }
+
+
+  checkForm(form: FormGroup): boolean{
+    var options: FormField = {
+      "name" : 50,
+      "number" : 10,
+      "street" : 100,
+      "city" : 50,
+      "country" : 50
+    }
+
+    return this.clientsService.checkForm(form, options)
   }
 }

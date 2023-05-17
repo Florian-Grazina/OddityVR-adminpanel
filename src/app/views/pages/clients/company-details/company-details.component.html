@@ -1,3 +1,7 @@
+<div class="mb-4">
+  <h2>COMPANY</h2>
+</div>
+
 <!-- -------------------------------------------------------------
 Company details
 ------------------------------------------------------------- -->
@@ -10,38 +14,43 @@ Company details
           <h6 class="card-title">Company details</h6>
             
           <div class="row mb-3">
-            <p class="col-sm-3 col-form-p">ID</p>
-            <p class="col-sm-9 border">{{company.id}}</p>
+            <p class="col-sm-4 col-form-p">ID</p>
+            <p class="col-sm-8 border">{{company.id}}</p>
           </div>
 
             <div class="row mb-3">
-              <p class="col-sm-3 col-form-p">Company Name</p>
-              <p class="col-sm-9 border">{{company.name}}</p>
+              <p class="col-sm-4 col-form-p">Company Name</p>
+              <p class="col-sm-8 border">{{company.name}}</p>
             </div>
 
             <div class="row mb-3">
-              <p class="col-sm-3 col-form-p">Number</p>
-              <p class="col-sm-9 border">{{company.number}}</p>
+              <p class="col-sm-4 col-form-p">Number</p>
+              <p class="col-sm-8 border">{{company.number}}</p>
             </div>
 
             <div class="row mb-3">
-              <p class="col-sm-3 col-form-p">Street</p>
-              <p class="col-sm-9 border">{{company.street}}</p>
+              <p class="col-sm-4 col-form-p">Street</p>
+              <p class="col-sm-8 border">{{company.street}}</p>
             </div>
 
             <div class="row mb-3">
-              <p class="col-sm-3 col-form-p">City</p>
-              <p class="col-sm-9 border">{{company.city}}</p>
+              <p class="col-sm-4 col-form-p">City</p>
+              <p class="col-sm-8 border">{{company.city}}</p>
             </div>
 
             <div class="row mb-3">
-              <p class="col-sm-3 col-form-p">Postal Code</p>
-              <p class="col-sm-9 border">{{company.postalCode}}</p>
+              <p class="col-sm-4 col-form-p">Postal Code</p>
+              <p class="col-sm-8 border">{{company.postalCode}}</p>
             </div>
 
             <div class="row mb-3">
-              <p class="col-sm-3 col-form-p">Country</p>
-              <p class="col-sm-9 border">{{company.country}}</p>
+              <p class="col-sm-4 col-form-p">Country</p>
+              <p class="col-sm-8 border">{{company.country}}</p>
+            </div>
+
+            <div class="row mb-3">
+              <p class="col-sm-4 col-form-p">Number of departments</p>
+              <p class="col-sm-8 border">{{company.numberOfDepartments}}</p>
             </div>
           
         </div>
@@ -86,7 +95,7 @@ List departments
                     <td>{{department.id}}</td>
                     <td>{{department.name}}</td>
                     <td>{{department.numberOfEmployees}}</td>
-                    <td><a type="button" routerLink="/clients/company-details//{{company.id}}" class="btn btn-outline-success">Details</a></td>
+                    <td><a type="button" routerLink="/clients/department-details//{{department.id}}" class="btn btn-outline-success">Details</a></td>
                     <td><a type="button" (click)="openXlModal(updateModal); initUpdateForm(department, index)" class="btn btn-outline-warning">Update</a></td>
                     <td><a type="button" (click)="deleteDepartment(department)" class="btn btn-outline-danger">Delete</a></td>
                   </tr>
@@ -157,4 +166,27 @@ Update department
       </form>
     </div>
   </ng-template>
+</section>
+
+<!-- -------------------------------------------------------------
+Loader
+------------------------------------------------------------- -->
+
+<section>
+  <div *ngIf="isLoading" class="card row">
+    <div class="col-md-12 stretch-card">
+        <div class="card-body d-flex align-items-center">
+          <strong>Loading...</strong>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+    </div>
+  </div>
+
+  <div *ngIf="retryFetch" class="card row">
+    <div class="col-md-12 stretch-card">
+        <div class="card-body d-flex align-items-center">
+          <a type="button" (click)="getCompany()" class="btn btn-outline-info">Retry</a>
+        </div>
+    </div>
+  </div>
 </section>
