@@ -136,10 +136,10 @@ export class ClientsService {
   checkForm(form: FormGroup, options: FormField): boolean{
     let errorMessage = "";
 
-    if(Object.values(form.value).some((elem: any) => String(elem) == "")){
-      this.popUpError("The form is incomplete");
-      return false;
-    };
+    // if(Object.values(form.value).some((elem: any) => String(elem) == "")){
+    //   this.popUpError("The form is incomplete");
+    //   return false;
+    // };
 
     for(var key in options){
       if(form.value[key].length > options[key]){

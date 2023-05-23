@@ -11,6 +11,8 @@ import { ClientsService } from '../clients.service';
 export class DepartmentDetailsComponent implements OnInit {
   department: Department;
   listOfUsers: User[];
+  isLoading: boolean;
+  retryFetch: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,15 +31,39 @@ export class DepartmentDetailsComponent implements OnInit {
   // ----------------------
 
   getDepartment(): void{
+    this.retryFetch = false;
+    this.isLoading = true;
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.clientsService.getDepartmentById(id)
-    .subscribe(result => {
+
+    this.clientsService.getDepartmentById(id).subscribe({
+      next: (result) => {
+      this.isLoading = false;
       this.department = result;
 
       // get departments once the company is fetched
-      this.clientsService.getUsersByDepartmentId(result.id)
-      .subscribe(result => this.listOfUsers = result)
-    })
+      this.getUsersByDepartmentId(result);
+    },
+    error: (err) => {
+      this.isLoading = false;
+      this.retryFetch = true;
+      this.clientsService.popUpError("An error has occured, please try reloading");
+    }
+    });
+  }
+
+  getUsersByDepartmentId(result: Department): void {
+    this.clientsService.getUsersByDepartmentId(result.id).subscribe({
+      next: (result) => {
+        this.isLoading = false;
+        this.listOfUsers = result;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.retryFetch = true;
+      this.clientsService.popUpError("An error has occured, please try reloading");
+      }
+    });
   }
 
   // Update

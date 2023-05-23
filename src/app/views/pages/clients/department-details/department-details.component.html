@@ -1,4 +1,4 @@
-<div class="mb-4">
+<!-- <div class="mb-4">
 	<h2>DEPARTMENT</h2>
 </div>
 
@@ -34,3 +34,77 @@ Department details
 	</div>
 </section>
 
+<!-- -------------------------------------------------------------
+List users
+------------------------------------------------------------- -->
+
+<section>
+  <div *ngIf="department" class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <h6 class="card-title col">List of Departments</h6>
+              <div  id="add-department" class="col">
+                <!-- <button type="submit" class="btn btn-primary me-2" (click)="initCreateForm(); openXlModal(creationModal)" >Add Department</button> -->
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Nb of<br/>employees</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr *ngFor="let department of listOfDepartments let index = index">
+                    <td>{{index+1}}</td>
+                    <td>{{department.id}}</td>
+                    <td>{{department.name}}</td>
+                    <td>{{department.numberOfEmployees}}</td>
+                    <td><a type="button" routerLink="/clients/department-details//{{department.id}}" class="btn btn-outline-success">Details</a></td>
+                    <td><a type="button" (click)="openXlModal(updateModal); initUpdateForm(department, index)" class="btn btn-outline-warning">Update</a></td>
+                    <td><a type="button" (click)="deleteDepartment(department)" class="btn btn-outline-danger">Delete</a></td> -->
+                  <!-- </tr> -->
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- -------------------------------------------------------------
+Loader
+------------------------------------------------------------- -->
+
+<section>
+	<div *ngIf="isLoading" class="card row">
+	  <div class="col-md-12 stretch-card">
+		  <div class="card-body d-flex align-items-center">
+			<strong>Loading...</strong>
+			<div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+		  </div>
+	  </div>
+	</div>
+  
+	<div *ngIf="retryFetch" class="card row">
+	  <div class="col-md-12 stretch-card">
+		  <div class="card-body d-flex align-items-center">
+			<a type="button" (click)="getDepartment()" class="btn btn-outline-info">Retry</a>
+		  </div>
+	  </div>
+	</div>
+  </section>
+   -->
