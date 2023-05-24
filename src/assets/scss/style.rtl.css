@@ -19382,7 +19382,7 @@ body {
 .main-wrapper .page-wrapper .page-content {
   flex-grow: 1;
   padding: 25px;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 @media (max-width: 767px) {
   .main-wrapper .page-wrapper .page-content {

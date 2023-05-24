@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, TemplateRef } from '@angular/core';
-import { Company, Department, FormCreateCompany, FormCreateDepartment, FormField, FormUpdateCompany, FormUpdateDepartment, User} from './model/company.model';
+import { ClientRoles, Company, Department, FormCreateCompany, FormCreateDepartment, FormCreateUser, FormField, FormUpdateCompany, FormUpdateDepartment, User} from './model/company.model';
 import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -67,9 +67,9 @@ export class ClientsService {
   // CRUD Users
   // -----------------
 
-  // postCreateDepartment(form: FormCreateDepartment): Observable<Department>{
-  //   return this.httpClient.post<Department>("https://localhost:7233/api/department/create", form);
-  // }
+  postCreateUser(form: FormCreateUser): Observable<User>{
+    return this.httpClient.post<User>("https://localhost:7233/api/user/create", form);
+  }
 
   getUsersByDepartmentId(id: number): Observable<User[]>{
       return this.httpClient.get<User[]>(`https://localhost:7233/api/user/get_all_from_department/${id}`)
@@ -82,6 +82,15 @@ export class ClientsService {
   // deleteDepartment(department: Department){
   //   return this.httpClient.delete(`https://localhost:7233/api/department/delete/${department.id}`);
   // }
+
+
+  // Roles
+  // -----------------
+
+  getClientRoles(): Observable<ClientRoles[]>{
+    return this.httpClient.get<ClientRoles[]>(`https://localhost:7233/api/role/get_client_roles`)
+}
+
 
   // Utilities - Alerts
   //-----------------

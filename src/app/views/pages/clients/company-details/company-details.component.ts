@@ -49,8 +49,8 @@ export class CompanyDetailsComponent implements OnInit {
         if (result.id != 0){
           this.creationDepartmentForm.reset();
           this.listOfDepartments.push(result);
-          this.clientsService.popUpSuccess("The Department has been created")
-          
+          this.clientsService.popUpSuccess("The Department has been created");
+          this.company.numberOfDepartments ++;
         }
         else{
           this.clientsService.popUpError("Something went wrong, please try again");
@@ -155,6 +155,7 @@ export class CompanyDetailsComponent implements OnInit {
       
       .subscribe(result => {
         this.listOfDepartments = this.listOfDepartments.filter(company => company != departmentToDelete);
+        this.company.numberOfDepartments --;
         this.clientsService.lilSuccess(`The Company ${departmentToDelete.name} has been deleted`)})
       }
     })
@@ -172,7 +173,6 @@ export class CompanyDetailsComponent implements OnInit {
     var options: FormField = {
       "name" : 50
     }
-
     return this.clientsService.checkForm(form, options)
   }
 }

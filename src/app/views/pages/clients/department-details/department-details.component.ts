@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Department, User } from '../model/company.model';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { ClientRoles, Department, FormField, User } from '../model/company.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientsService } from '../clients.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-department-details',
@@ -11,12 +12,16 @@ import { ClientsService } from '../clients.service';
 export class DepartmentDetailsComponent implements OnInit {
   department: Department;
   listOfUsers: User[];
+  listOfRoles: ClientRoles[];
+  creationUserForm: FormGroup;
   isLoading: boolean;
   retryFetch: boolean;
+  defaultSelected = 1;
 
   constructor(
     private route: ActivatedRoute,
-    private clientsService: ClientsService
+    private clientsService: ClientsService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -26,6 +31,36 @@ export class DepartmentDetailsComponent implements OnInit {
   // Create
   // ----------------------
 
+  initCreateForm(): void{
+    this.creationUserForm = this.formBuilder.group({
+      departmentId: [this.department.id],
+      roleId: [this.department.id],
+      email: "",
+      password: "",
+      birthdate: "",
+    })
+  }
+
+  createUser(): void{
+    if (this.checkForm(this.creationUserForm)){
+
+      console.log(this.creationUserForm.value);
+      
+      // this.clientsService.postCreateUser(this.creationUserForm.value)
+      // .subscribe(result => {
+    
+      //   // verify that the post has been successful
+      //   if (result.id != 0){
+      //     this.creationUserForm.reset();
+      //     this.listOfUsers.push(result);
+      //     this.clientsService.popUpSuccess("The User has been created")
+      //   }
+      //   else{
+      //     this.clientsService.popUpError("Something went wrong, please try again");
+      //   }
+      // })
+    }
+  }
 
   // Read
   // ----------------------
@@ -41,7 +76,7 @@ export class DepartmentDetailsComponent implements OnInit {
       this.isLoading = false;
       this.department = result;
 
-      // get departments once the company is fetched
+      // get users once the department is fetched
       this.getUsersByDepartmentId(result);
     },
     error: (err) => {
@@ -57,6 +92,7 @@ export class DepartmentDetailsComponent implements OnInit {
       next: (result) => {
         this.isLoading = false;
         this.listOfUsers = result;
+        this.getClientRoles();
       },
       error: (err) => {
         this.isLoading = false;
@@ -73,4 +109,31 @@ export class DepartmentDetailsComponent implements OnInit {
   // Delete
   // ----------------------
 
+
+  // Roles
+  // ----------------------
+
+  getClientRoles(): void {
+    this.clientsService.getClientRoles().subscribe({
+      next: (result) => {
+        console.log(result);
+        this.listOfRoles = result}
+      });
+  }
+
+  // Utilies
+  // ----------------------
+
+  openXlModal(content: TemplateRef<any>): void{
+    this.clientsService.openXlModal(content);
+  }
+
+
+  checkForm(form: FormGroup): boolean{
+    var options: FormField = {
+      "email": 50,
+      "password": 50
+    }
+    return this.clientsService.checkForm(form, options)
+  }
 }
