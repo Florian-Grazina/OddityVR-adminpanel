@@ -150,7 +150,7 @@ export class CompanyComponent implements OnInit {
   // ----------------------
 
   openXlModal(content: TemplateRef<any>): void {
-    this.clientsService.openXlModal(content);
+    this.clientsService.openModal(content);
   }
 
 

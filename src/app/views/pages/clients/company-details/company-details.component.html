@@ -123,7 +123,7 @@ Create department
     </div>
 
     <div class="modal-body">
-      <form (ngSubmit)="createDepartment();modal.close('by: close button')" [formGroup]="creationDepartmentForm" class="forms-sample">
+      <form (ngSubmit)="createDepartment();modal.close('by: close button')" [formGroup]="departmentForm" class="forms-sample">
   
         <div class="row mb-3">
           <label for="name" class="col-sm-3 col-form-label">Name</label>
@@ -152,7 +152,7 @@ Update department
     </div>
 
     <div class="modal-body">
-      <form (ngSubmit)="updateDepartment();modal.close('by: close button')" [formGroup]="updateDepartmentForm" class="forms-sample">
+      <form (ngSubmit)="updateDepartment();modal.close('by: close button')" [formGroup]="departmentForm" class="forms-sample">
   
         <div class="row mb-3">
           <label for="name" class="col-sm-3 col-form-label">Name</label>
@@ -173,20 +173,24 @@ Loader
 ------------------------------------------------------------- -->
 
 <section>
-  <div *ngIf="isLoading" class="card row">
-    <div class="col-md-12 stretch-card">
-        <div class="card-body d-flex align-items-center">
-          <strong>Loading...</strong>
-          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-        </div>
+  <div *ngIf="isLoading" class="row d-flex justify-content-center">
+    <div  class="card col-sm-6">
+      <div class="stretch-card">
+          <div class="card-body d-flex">
+            <strong>Loading...</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+          </div>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="retryFetch" class="card row">
-    <div class="col-md-12 stretch-card">
-        <div class="card-body d-flex align-items-center">
+  <div *ngIf="retryFetch" class="row d-flex justify-content-center">
+    <div  class="card col-sm-6">
+      <div class="stretch-card">
+          <div class="card-body d-flex">
           <a type="button" (click)="getCompany()" class="btn btn-outline-info">Retry</a>
         </div>
+      </div>
     </div>
   </div>
 </section>

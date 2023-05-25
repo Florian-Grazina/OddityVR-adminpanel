@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, TemplateRef } from '@angular/core';
-import { ClientRoles, Company, Department, FormCreateCompany, FormCreateDepartment, FormCreateUser, FormField, FormUpdateCompany, FormUpdateDepartment, User} from './model/company.model';
+import { ClientRoles, Company, Department, FormCreateCompany, FormCreateDepartment, FormCreateUser, FormField, FormUpdateCompany, FormUpdateDepartment, FormUpdateUser, User} from './model/company.model';
 import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -35,7 +35,7 @@ export class ClientsService {
     return this.httpClient.put<Company>("https://localhost:7233/api/company/update", form);
   }
 
-  deleteCompany(company: Company){
+  deleteCompany(company: Company): Observable<any>{
     return this.httpClient.delete(`https://localhost:7233/api/company/delete/${company.id}`);
   }
 
@@ -59,7 +59,7 @@ export class ClientsService {
     return this.httpClient.put<Department>("https://localhost:7233/api/department/update", form);
   }
 
-  deleteDepartment(department: Department){
+  deleteDepartment(department: Department): Observable<any>{
     return this.httpClient.delete(`https://localhost:7233/api/department/delete/${department.id}`);
   }
 
@@ -75,13 +75,13 @@ export class ClientsService {
       return this.httpClient.get<User[]>(`https://localhost:7233/api/user/get_all_from_department/${id}`)
   }
 
-  // putUpdateDepartment(form: FormUpdateDepartment): Observable<Department>{
-  //   return this.httpClient.put<Department>("https://localhost:7233/api/department/update", form);
-  // }
+  putUpdateUser(form: FormUpdateUser): Observable<User>{
+    return this.httpClient.put<User>("https://localhost:7233/api/user/update", form);
+  }
 
-  // deleteDepartment(department: Department){
-  //   return this.httpClient.delete(`https://localhost:7233/api/department/delete/${department.id}`);
-  // }
+  deleteUser(user: User): Observable<any>{
+    return this.httpClient.delete(`https://localhost:7233/api/user/delete/${user.id}`);
+  }
 
 
   // Roles
@@ -136,7 +136,7 @@ export class ClientsService {
   // Utilities - Forms
   //-----------------
   
-  openXlModal(content: TemplateRef<any>): void {
+  openModal(content: TemplateRef<any>): void {
     this.modalService.open(content, {size: 'xl'}).result.then((result) => {
       console.log("Modal closed" + result);
     }).catch((res) => {});
@@ -145,10 +145,10 @@ export class ClientsService {
   checkForm(form: FormGroup, options: FormField): boolean{
     let errorMessage = "";
 
-    // if(Object.values(form.value).some((elem: any) => String(elem) == "")){
-    //   this.popUpError("The form is incomplete");
-    //   return false;
-    // };
+    if(Object.values(form.value).some((elem: any) => String(elem) == "")){
+      this.popUpError("The form is incomplete");
+      return false;
+    };
 
     for(var key in options){
       if(form.value[key].length > options[key]){

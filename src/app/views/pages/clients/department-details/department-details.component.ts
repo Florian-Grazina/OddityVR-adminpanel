@@ -3,6 +3,8 @@ import { ClientRoles, Department, FormField, User } from '../model/company.model
 import { ActivatedRoute } from '@angular/router';
 import { ClientsService } from '../clients.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-department-details',
@@ -13,15 +15,16 @@ export class DepartmentDetailsComponent implements OnInit {
   department: Department;
   listOfUsers: User[];
   listOfRoles: ClientRoles[];
-  creationUserForm: FormGroup;
+  userForm: FormGroup;
   isLoading: boolean;
   retryFetch: boolean;
-  defaultSelected = 1;
+  defaultSelected: number;
+  formTitle: String;
 
   constructor(
     private route: ActivatedRoute,
     private clientsService: ClientsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -32,9 +35,12 @@ export class DepartmentDetailsComponent implements OnInit {
   // ----------------------
 
   initCreateForm(): void{
-    this.creationUserForm = this.formBuilder.group({
+    this.defaultSelected = 1;
+    this.formTitle = "Create new User";
+
+    this.userForm = this.formBuilder.group({
       departmentId: [this.department.id],
-      roleId: [this.department.id],
+      roleId: this.defaultSelected,
       email: "",
       password: "",
       birthdate: "",
@@ -42,23 +48,19 @@ export class DepartmentDetailsComponent implements OnInit {
   }
 
   createUser(): void{
-    if (this.checkForm(this.creationUserForm)){
+    if (this.checkForm(this.userForm)){
 
-      console.log(this.creationUserForm.value);
-      
-      // this.clientsService.postCreateUser(this.creationUserForm.value)
-      // .subscribe(result => {
-    
-      //   // verify that the post has been successful
-      //   if (result.id != 0){
-      //     this.creationUserForm.reset();
-      //     this.listOfUsers.push(result);
-      //     this.clientsService.popUpSuccess("The User has been created")
-      //   }
-      //   else{
-      //     this.clientsService.popUpError("Something went wrong, please try again");
-      //   }
-      // })
+      this.clientsService.postCreateUser(this.userForm.value).subscribe({
+        next: (result) => {
+          this.userForm.reset();
+          this.listOfUsers.push(result);
+          this.clientsService.popUpSuccess("The User has been created")
+          this.department.numberOfEmployees ++;
+        },
+        error: (err) => {
+          this.clientsService.popUpError("Something went wrong, please try again");
+        }
+      })
     }
   }
 
@@ -105,10 +107,68 @@ export class DepartmentDetailsComponent implements OnInit {
   // Update
   // ----------------------
 
+  initUpdateForm(user: User, index: number): void{
+    this.defaultSelected = user.roleId;
+    this.formTitle = "Update User";
+
+    const datePipe = new DatePipe('en-US');
+    let newDate = datePipe.transform(user.birthdate, 'yyyy-MM-dd');
+
+    this.userForm = this.formBuilder.group({
+      index: index,
+      roleId: this.defaultSelected,
+      departmentId: [this.department.id],
+      birthdate: [newDate],
+      id: [user.id],
+      password: [user.password],
+      email: [user.email],
+    })
+  }
+
+  updateUser(): void{
+    if(this.checkForm(this.userForm)){
+
+      this.clientsService.putUpdateUser(this.userForm.value).subscribe({
+        next: (result) => {
+          this.isLoading = false;
+          this.listOfUsers[this.userForm.value.index] = result;
+          this.clientsService.lilSuccess("The user has been updated")
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.retryFetch = true;
+          this.clientsService.popUpError("Something went wrong, please try again")
+        }
+      })
+    }
+  }
 
   // Delete
   // ----------------------
 
+  deleteUser(userToDelete: User): void {
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    })
+    
+    .then((result) => {
+      if (result.isConfirmed) {
+      this.clientsService.deleteUser(userToDelete)
+      
+      .subscribe(result => {
+        this.listOfUsers = this.listOfUsers.filter(user => user != userToDelete);
+        this.department.numberOfEmployees --;
+        this.clientsService.lilSuccess(`The User ${userToDelete.email} has been deleted`)})
+      }
+    })
+  }
 
   // Roles
   // ----------------------
@@ -124,10 +184,9 @@ export class DepartmentDetailsComponent implements OnInit {
   // Utilies
   // ----------------------
 
-  openXlModal(content: TemplateRef<any>): void{
-    this.clientsService.openXlModal(content);
+  openModal(content: TemplateRef<any>): void{
+    this.clientsService.openModal(content);
   }
-
 
   checkForm(form: FormGroup): boolean{
     var options: FormField = {

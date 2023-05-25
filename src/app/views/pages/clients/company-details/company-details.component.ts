@@ -14,8 +14,7 @@ import Swal from 'sweetalert2';
 export class CompanyDetailsComponent implements OnInit {
   company: Company;
   listOfDepartments: Department[];
-  creationDepartmentForm: FormGroup;
-  updateDepartmentForm: FormGroup;
+  departmentForm: FormGroup;
   isLoading: boolean;
   retryFetch: boolean;
 
@@ -33,21 +32,21 @@ export class CompanyDetailsComponent implements OnInit {
   // ----------------------
 
   initCreateForm(): void{
-    this.creationDepartmentForm = this.formBuilder.group({
+    this.departmentForm = this.formBuilder.group({
       companyId: [this.company.id],
       name: ""
     })
   }
 
   createDepartment(): void{
-    if (this.checkForm(this.creationDepartmentForm)){
+    if (this.checkForm(this.departmentForm)){
 
-      this.clientsService.postCreateDepartment(this.creationDepartmentForm.value)
+      this.clientsService.postCreateDepartment(this.departmentForm.value)
       .subscribe(result => {
     
         // verify that the post has been successful
         if (result.id != 0){
-          this.creationDepartmentForm.reset();
+          this.departmentForm.reset();
           this.listOfDepartments.push(result);
           this.clientsService.popUpSuccess("The Department has been created");
           this.company.numberOfDepartments ++;
@@ -102,7 +101,7 @@ export class CompanyDetailsComponent implements OnInit {
   // ----------------------
 
   initUpdateForm(department: Department, index: number): void{
-    this.updateDepartmentForm = this.formBuilder.group({
+    this.departmentForm = this.formBuilder.group({
       index: index,
       id: [department.id],
       name: [department.name],
@@ -111,14 +110,14 @@ export class CompanyDetailsComponent implements OnInit {
   }
 
   updateDepartment(): void{
-    if(this.checkForm(this.updateDepartmentForm)){
+    if(this.checkForm(this.departmentForm)){
 
-      this.clientsService.putUpdateDepartment(this.updateDepartmentForm.value)
+      this.clientsService.putUpdateDepartment(this.departmentForm.value)
       .subscribe(result => {
 
         // verify the update has been successful
         if(result.id != 0){
-          this.listOfDepartments[this.updateDepartmentForm.value.index] = result;
+          this.listOfDepartments[this.departmentForm.value.index] = result;
           this.clientsService.lilSuccess("The department has been updated")
         }
         else {
@@ -137,7 +136,6 @@ export class CompanyDetailsComponent implements OnInit {
       this.clientsService.popUpError("Employees are affected to the department.\nYou need to delete them first");
       return
     }
-
 
     Swal.fire({
       title: 'Are you sure?',
@@ -165,7 +163,7 @@ export class CompanyDetailsComponent implements OnInit {
   // ----------------------
 
   openXlModal(content: TemplateRef<any>): void{
-    this.clientsService.openXlModal(content);
+    this.clientsService.openModal(content);
   }
 
 

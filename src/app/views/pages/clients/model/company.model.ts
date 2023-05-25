@@ -57,13 +57,16 @@ export interface FormUpdateDepartment {
 export interface User {
     id: number,
     email: string,
+    roleId: number,
     role: string,
+    password: string,
     birthdate: Date,
-    lastConnection?: Date
+    lastConnection?: Date,
 }
 
 export interface FormCreateUser {
     departmentId: number,
+    RoleId: number,
     email: string,
     password: string,
     birthdate: Date,
@@ -72,6 +75,8 @@ export interface FormCreateUser {
 export interface FormUpdateUser {
     index: number,
     id: number,
+    departmentId: number,
+    RoleId: number,
     email: string,
     password: string,
     birthdate: Date,
