@@ -12,10 +12,10 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
   styleUrls: ['./company.component.scss']
 })
 export class CompanyComponent implements OnInit {
-  // searchTerms = new Subject<string>();
   creationCompanyForm: FormGroup;
   updateCompanyForm: FormGroup;
   listOfCompanies: Company[];
+  listOfCompaniesToDisplay: Company[];
   isLoading: boolean;
   retryFetch: boolean;
 
@@ -34,15 +34,6 @@ export class CompanyComponent implements OnInit {
     });
 
     this.getAllCompanies();
-
-    // this.searchTerms.pipe(
-    //   // wait 300 ms after each keystroke before searching
-    //   debounceTime(300),
-    //   // ignore new term if same as previous
-    //   distinctUntilChanged(),
-    //   // new search observable each time the term changes
-    //   switchMap((term: string) => this.filterList()),
-    // );
   }
 
 
@@ -50,8 +41,8 @@ export class CompanyComponent implements OnInit {
   // ----------------------
 
   search(term: string): void {
-    // this.searchTerms.next(term);
-    this.listOfCompanies.filter(comp => comp.name.includes(term));
+    this.listOfCompaniesToDisplay = this.listOfCompanies
+      .filter(comp => comp.name.toLowerCase().includes(term.toLowerCase()));
   }
 
 
@@ -88,6 +79,7 @@ export class CompanyComponent implements OnInit {
       next: (result) => {
         this.isLoading = false;
         this.listOfCompanies = result;
+        this.listOfCompaniesToDisplay = result;
       },
       error: (err) => {
         this.isLoading = false;

@@ -62,16 +62,19 @@ Creation form
 List companies
 ------------------------------------------------------------- -->
 
-<label for="search-box">Companies Search</label>
-<input #searchBox id="search-box" (input)="search(searchBox.value)"/>
-
 <section>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h6 class="card-title">List of Companies</h6>
+            
+            <div class="row mb-3">
+              <h6 class="card-title col-sm-5">List of Companies</h6>
+              <div class="col-sm-3">
+                <input type="text" class="form-control" id="search-box" placeholder="Search" #searchBox (input)=search(searchBox.value)>
+              </div>
+            </div>
 
             <div class="table-responsive">
               <table class="table">
@@ -80,6 +83,7 @@ List companies
                     <th>#</th>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>Number</th>
                     <th>Street</th>
                     <th>City</th>
                     <th>Postal<br/>Code</th>
@@ -91,10 +95,11 @@ List companies
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let company of listOfCompanies let index = index">
+                  <tr *ngFor="let company of listOfCompaniesToDisplay let index = index">
                     <td>{{index+1}}</td>
                     <td>{{company.id}}</td>
                     <td>{{company.name}}</td>
+                    <td>{{company.number}}</td>
                     <td>{{company.street}}</td>
                     <td>{{company.city}}</td>
                     <td>{{company.postalCode}}</td>
@@ -114,8 +119,6 @@ List companies
     </div>
   </div>
 </section>
-
-
 
 <!-- -------------------------------------------------------------
 Update company
