@@ -15,49 +15,42 @@ Creation form
           <form (ngSubmit)="createCompany()" [formGroup]="creationCompanyForm" class="forms-sample">
             
             <div class="row mb-3">
-              <label for="name" class="col-sm-3 col-form-label">Company Name</label>
-              <div class="col-sm-9">
+              <label for="name" class="col-sm-2 col-form-label">Name</label>
+              <div class="col-sm-4">
                 <input type="text" class="form-control" id="name" formControlName="name" placeholder="Company Name">
               </div>
-            </div>
 
-            <div class="row mb-3">
-              <label for="street-number" class="col-sm-3 col-form-label">Number</label>
-              <div class="col-sm-9">
+              <label for="street-number" class="col-sm-2 col-form-label">Number</label>
+              <div class="col-sm-4">
                 <input type="text" class="form-control" id="street-number" formControlName="number" placeholder="Street Number">
               </div>
             </div>
 
             <div class="row mb-3">
-              <label for="street" class="col-sm-3 col-form-label">Street</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="street" formControlName="street" placeholder="Address">
+              <label for="street" class="col-sm-2 col-form-label">Street</label>
+              <div class="col-sm-4">
+                <input type="text" class="form-control" id="street" formControlName="street" placeholder="Street">
               </div>
-            </div>
 
-            <div class="row mb-3">
-              <label for="city" class="col-sm-3 col-form-label">City</label>
-              <div class="col-sm-9">
+              <label for="city" class="col-sm-2 col-form-label">City</label>
+              <div class="col-sm-4">
                 <input type="text" class="form-control" id="city" formControlName="city" placeholder="City">
               </div>
             </div>
 
             <div class="row mb-3">
-              <label for="postal-code" class="col-sm-3 col-form-label">Postal Code</label>
-              <div class="col-sm-9">
+              <label for="postal-code" class="col-sm-2 col-form-label">Postal Code</label>
+              <div class="col-sm-4">
                 <input type="text" class="form-control" id="postal-code" formControlName="postalCode" placeholder="Postal Code">
               </div>
-            </div>
 
-            <div class="row mb-3">
-              <label for="country" class="col-sm-3 col-form-label">Country</label>
-              <div class="col-sm-9">
+              <label for="country" class="col-sm-2 col-form-label">Country</label>
+              <div class="col-sm-4">
                 <input type="text" class="form-control" id="country" formControlName="country" placeholder="Country">
               </div>
             </div>
           
             <button type="submit" class="btn btn-primary me-2">Submit</button>
-            <button class="btn btn-secondary">Cancel</button>
           </form>
         </div>
       </div>
@@ -68,6 +61,9 @@ Creation form
 <!-- -------------------------------------------------------------
 List companies
 ------------------------------------------------------------- -->
+
+<label for="search-box">Companies Search</label>
+<input #searchBox id="search-box" (input)="search(searchBox.value)"/>
 
 <section>
   <div class="container-fluid">
@@ -134,7 +130,7 @@ Update company
     </div>
 
     <div class="modal-body">
-      <form (ngSubmit)="updateCompany(); modal.close('by: close button')" [formGroup]="updateCompanyForm" class="forms-sample">
+      <form (ngSubmit)="updateCompany();modal.close('by: close button')" [formGroup]="updateCompanyForm" class="forms-sample">
   
         <div class="row mb-3">
           <label for="name" class="col-sm-3 col-form-label">Name</label>
@@ -179,7 +175,7 @@ Update company
         </div>
 
         <button type="submit" class="btn btn-primary me-2">Submit</button>
-        <button class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
+        <button type="reset" class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
       </form>
     </div>
   </ng-template>

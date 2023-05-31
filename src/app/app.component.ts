@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  title = 'nobleui-angular';
+export class AppComponent{
+  title = 'OddityVR Dashboard';
 
-  ngOnInit(): void {}
-
+  @HostListener("window:onbeforeunload",["$event"])
+  clearLocalStorage(){
+    localStorage.clear();
+  }
 }

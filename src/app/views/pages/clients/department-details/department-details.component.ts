@@ -120,7 +120,6 @@ export class DepartmentDetailsComponent implements OnInit {
       departmentId: [this.department.id],
       birthdate: [newDate],
       id: [user.id],
-      password: [user.password],
       email: [user.email],
     })
   }

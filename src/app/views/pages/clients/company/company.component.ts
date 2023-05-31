@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ClientsService } from '../clients.service';
 import { Company, FormField } from '../model/company.model';
 import Swal from 'sweetalert2';
+import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-company',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./company.component.scss']
 })
 export class CompanyComponent implements OnInit {
+  // searchTerms = new Subject<string>();
   creationCompanyForm: FormGroup;
   updateCompanyForm: FormGroup;
   listOfCompanies: Company[];
@@ -30,7 +32,26 @@ export class CompanyComponent implements OnInit {
       postalCode:"",
       country:"",
     });
+
     this.getAllCompanies();
+
+    // this.searchTerms.pipe(
+    //   // wait 300 ms after each keystroke before searching
+    //   debounceTime(300),
+    //   // ignore new term if same as previous
+    //   distinctUntilChanged(),
+    //   // new search observable each time the term changes
+    //   switchMap((term: string) => this.filterList()),
+    // );
+  }
+
+
+  // Search
+  // ----------------------
+
+  search(term: string): void {
+    // this.searchTerms.next(term);
+    this.listOfCompanies.filter(comp => comp.name.includes(term));
   }
 
 

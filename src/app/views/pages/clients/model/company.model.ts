@@ -59,7 +59,6 @@ export interface User {
     email: string,
     roleId: number,
     role: string,
-    password: string,
     birthdate: Date,
     lastConnection?: Date,
 }

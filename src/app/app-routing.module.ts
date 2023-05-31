@@ -6,15 +6,12 @@ import { ErrorPageComponent } from './views/pages/error-page/error-page.componen
 
 
 const routes: Routes = [
+  { path:'auth', loadChildren: () => import('./views/pages/auth/auth.module').then(m => m.AuthModule) },
   {
     path: '',
     component: BaseComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: 'Blog',
-        loadChildren: () => import('./views/pages/Blog/blog.module').then(m => m.BlogModule)
-      },
       {
         path: 'clients',
         loadChildren: () => import('./views/pages/clients/clients.module').then(m => m.ClientsModule)

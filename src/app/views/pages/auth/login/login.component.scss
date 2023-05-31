@@ -1,0 +1,27 @@
+:host {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#login-logo{
+  background-image: url(../../../../../assets/images/1603360404302.jpg);
+  background-position:47%;
+  border-radius: 500px;
+}
+
+#loader-container{
+  position: relative;
+}
+
+.spinner-border{
+  position: absolute;
+  height: 100px;
+  width: 100px;
+
+  right: 20%;
+  top: 10%;
+
+  z-index: 2;
+}

@@ -58,7 +58,6 @@ List users
                     <th>#</th>
                     <th>ID</th>
                     <th>Email</th>
-                    <th>Password</th>
                     <th>Birthdate</th>
                     <th>Nb of Tests</th>
                     <th>Role</th>
@@ -73,7 +72,6 @@ List users
                     <td>{{index+1}}</td>
                     <td>{{user.id}}</td>
                     <td>{{user.email}}</td>
-                    <td>{{user.password}}</td>
                     <td>{{user.birthdate | date}}</td>
                     <td>0</td>
                     <td>{{user.role}}</td>
@@ -140,7 +138,7 @@ Create User
         </div>
   
         <button type="submit" class="btn btn-primary me-2">Submit</button>
-        <button class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
+        <button type="reset" class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
       </form>
     </div>
   </ng-template>
@@ -193,7 +191,7 @@ Update User
         </div>
   
         <button type="submit" class="btn btn-primary me-2">Submit</button>
-        <button class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
+        <button type="reset" class="btn btn-secondary" (click)="modal.close('by: close button')">Cancel</button>
       </form>
     </div>
   </ng-template>
