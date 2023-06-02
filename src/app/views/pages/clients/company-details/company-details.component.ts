@@ -152,7 +152,7 @@ export class CompanyDetailsComponent implements OnInit {
       this.clientsService.deleteDepartment(departmentToDelete)
       
       .subscribe(result => {
-        this.listOfDepartments = this.listOfDepartments.filter(company => company != departmentToDelete);
+        this.listOfDepartments = this.listOfDepartments.filter(department => department != departmentToDelete);
         this.company.numberOfDepartments --;
         this.clientsService.lilSuccess(`The Company ${departmentToDelete.name} has been deleted`)})
       }

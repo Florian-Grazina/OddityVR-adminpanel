@@ -150,9 +150,10 @@ export class CompanyComponent implements OnInit {
     .then((result) => {
       if (result.isConfirmed) {
       this.clientsService.deleteCompany(companyToDelete)
-      
       .subscribe(result => {
-        this.listOfCompanies = this.listOfCompanies.filter(company => company != companyToDelete);
+        
+        this.listOfCompanies = this.listOfCompanies.filter(company => company.id != companyToDelete.id);
+        this.listOfCompaniesToDisplay = this.listOfCompanies;
         this.clientsService.lilSuccess(`The Company ${companyToDelete.name} has been deleted`)})
       }
     })

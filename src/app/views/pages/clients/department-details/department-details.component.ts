@@ -113,10 +113,10 @@ export class DepartmentDetailsComponent implements OnInit {
 
     const datePipe = new DatePipe('en-US');
     let newDate = datePipe.transform(user.birthdate, 'yyyy-MM-dd');
-
+    
     this.userForm = this.formBuilder.group({
       index: index,
-      roleId: this.defaultSelected,
+      roleId: "this.defaultSelected",
       departmentId: [this.department.id],
       birthdate: [newDate],
       id: [user.id],
@@ -126,6 +126,9 @@ export class DepartmentDetailsComponent implements OnInit {
 
   updateUser(): void{
     if(this.checkForm(this.userForm)){
+
+      console.log(this.userForm.value);
+      
 
       this.clientsService.putUpdateUser(this.userForm.value).subscribe({
         next: (result) => {
@@ -190,7 +193,6 @@ export class DepartmentDetailsComponent implements OnInit {
   checkForm(form: FormGroup): boolean{
     var options: FormField = {
       "email": 50,
-      "password": 50
     }
     return this.clientsService.checkForm(form, options)
   }

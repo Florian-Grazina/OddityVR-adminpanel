@@ -77,7 +77,6 @@ export interface FormUpdateUser {
     departmentId: number,
     RoleId: number,
     email: string,
-    password: string,
     birthdate: Date,
 }
 

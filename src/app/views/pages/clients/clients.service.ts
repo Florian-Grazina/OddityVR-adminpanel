@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable, TemplateRef } from '@angular/core';
 import { ClientRoles, Company, Department, FormCreateCompany, FormCreateDepartment, FormCreateUser, FormField, FormUpdateCompany, FormUpdateDepartment, FormUpdateUser, User} from './model/company.model';
 import Swal from 'sweetalert2';
@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,11 @@ export class ClientsService {
   }
 
   getAllCompanies(): Observable<Company[]>{
-    return this.httpClient.get<Company[]>(this.apiRoute + "company/get_all");
+    var reqHeader = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('key')
+   });
+    return this.httpClient.get<Company[]>(this.apiRoute + "company/get_all", {headers: reqHeader});
   }
 
   getCompanyById(id: number): Observable<Company>{
