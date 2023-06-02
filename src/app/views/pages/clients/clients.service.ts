@@ -5,12 +5,16 @@ import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientsService {
 
+  apiRoute = environment.apiRoute;
+  // apiRoute = "https://localhost:85/api/"
+  
   constructor(
     private httpClient: HttpClient,
     private modalService: NgbModal) { }
@@ -20,23 +24,23 @@ export class ClientsService {
   // -----------------
 
   postCreateCompany(form: FormCreateCompany): Observable<Company>{
-    return this.httpClient.post<Company>("https://localhost:7233/api/company/create", form);
+    return this.httpClient.post<Company>(this.apiRoute + "company/create", form);
   }
 
   getAllCompanies(): Observable<Company[]>{
-    return this.httpClient.get<Company[]>("https://localhost:7233/api/company/get_all");
+    return this.httpClient.get<Company[]>(this.apiRoute + "company/get_all");
   }
 
   getCompanyById(id: number): Observable<Company>{
-    return this.httpClient.get<Company>(`https://localhost:7233/api/company/get/${id}`);
+    return this.httpClient.get<Company>(this.apiRoute + `company/get/${id}`);
   }
 
   putUpdateCompany(form: FormUpdateCompany): Observable<Company>{
-    return this.httpClient.put<Company>("https://localhost:7233/api/company/update", form);
+    return this.httpClient.put<Company>(this.apiRoute + "company/update", form);
   }
 
   deleteCompany(company: Company): Observable<any>{
-    return this.httpClient.delete(`https://localhost:7233/api/company/delete/${company.id}`);
+    return this.httpClient.delete(this.apiRoute + `company/delete/${company.id}`);
   }
 
 
@@ -44,23 +48,23 @@ export class ClientsService {
   // -----------------
 
   postCreateDepartment(form: FormCreateDepartment): Observable<Department>{
-    return this.httpClient.post<Department>("https://localhost:7233/api/department/create", form);
+    return this.httpClient.post<Department>(this.apiRoute + "department/create", form);
   }
 
   getDepartmentById(id: number): Observable<Department>{
-    return this.httpClient.get<Department>(`https://localhost:7233/api/department/get/${id}`);
+    return this.httpClient.get<Department>(this.apiRoute + `department/get/${id}`);
   }
 
   getDepartmentsByCompanyId(id: number): Observable<Department[]>{
-      return this.httpClient.get<Department[]>(`https://localhost:7233/api/department/get_all_from_company/${id}`)
+      return this.httpClient.get<Department[]>(this.apiRoute + `department/get_all_from_company/${id}`)
   }
 
   putUpdateDepartment(form: FormUpdateDepartment): Observable<Department>{
-    return this.httpClient.put<Department>("https://localhost:7233/api/department/update", form);
+    return this.httpClient.put<Department>(this.apiRoute + "department/update", form);
   }
 
   deleteDepartment(department: Department): Observable<any>{
-    return this.httpClient.delete(`https://localhost:7233/api/department/delete/${department.id}`);
+    return this.httpClient.delete(this.apiRoute + `department/delete/${department.id}`);
   }
 
 
@@ -68,19 +72,19 @@ export class ClientsService {
   // -----------------
 
   postCreateUser(form: FormCreateUser): Observable<User>{
-    return this.httpClient.post<User>("https://localhost:7233/api/user/create", form);
+    return this.httpClient.post<User>(this.apiRoute + "user/create", form);
   }
 
   getUsersByDepartmentId(id: number): Observable<User[]>{
-      return this.httpClient.get<User[]>(`https://localhost:7233/api/user/get_all_from_department/${id}`)
+      return this.httpClient.get<User[]>(this.apiRoute + `user/get_all_from_department/${id}`)
   }
 
   putUpdateUser(form: FormUpdateUser): Observable<User>{
-    return this.httpClient.put<User>("https://localhost:7233/api/user/update", form);
+    return this.httpClient.put<User>(this.apiRoute + "user/update", form);
   }
 
   deleteUser(user: User): Observable<any>{
-    return this.httpClient.delete(`https://localhost:7233/api/user/delete/${user.id}`);
+    return this.httpClient.delete(this.apiRoute + `user/delete/${user.id}`);
   }
 
 
@@ -88,7 +92,7 @@ export class ClientsService {
   // -----------------
 
   getClientRoles(): Observable<ClientRoles[]>{
-    return this.httpClient.get<ClientRoles[]>(`https://localhost:7233/api/role/get_client_roles`)
+    return this.httpClient.get<ClientRoles[]>(this.apiRoute + `role/get_client_roles`)
 }
 
 

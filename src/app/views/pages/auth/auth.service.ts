@@ -3,18 +3,22 @@ import { Injectable } from '@angular/core';
 import { FormLogging, WebToken } from './model/model';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  apiRoute = environment.apiRoute;
+  // apiRoute = "https://localhost:85/api/"
+
   constructor(
     private httpClient: HttpClient) { }
 
 
   postLogging(form: FormLogging): Observable<WebToken>{
-    return this.httpClient.post<WebToken>("https://localhost:7233/api/token", form);
+    return this.httpClient.post<WebToken>(this.apiRoute + "token", form);
   }
 
   invalidCredentials(): void{
