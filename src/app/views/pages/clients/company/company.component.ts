@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ClientsService } from '../clients.service';
 import { Company, FormField } from '../model/company.model';
 import Swal from 'sweetalert2';
-import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-company',
@@ -14,8 +14,12 @@ import { Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 export class CompanyComponent implements OnInit {
   creationCompanyForm: FormGroup;
   updateCompanyForm: FormGroup;
+
   listOfCompanies: Company[];
-  listOfCompaniesToDisplay: Company[];
+  listOfCompaniesFilter: Observable<Company[]>;
+  currentPage: number = 1;
+  searchTerm: string = "";
+
   isLoading: boolean;
   retryFetch: boolean;
 
@@ -37,13 +41,6 @@ export class CompanyComponent implements OnInit {
   }
 
 
-  // Search
-  // ----------------------
-
-  search(term: string): void {
-    this.listOfCompaniesToDisplay = this.listOfCompanies
-      .filter(comp => comp.name.toLowerCase().includes(term.toLowerCase()));
-  }
 
 
   // Create
@@ -79,7 +76,7 @@ export class CompanyComponent implements OnInit {
       next: (result) => {
         this.isLoading = false;
         this.listOfCompanies = result;
-        this.listOfCompaniesToDisplay = result;
+        this.loadPage();
       },
       error: (err) => {
         this.isLoading = false;
@@ -153,11 +150,13 @@ export class CompanyComponent implements OnInit {
       .subscribe(result => {
         
         this.listOfCompanies = this.listOfCompanies.filter(company => company.id != companyToDelete.id);
-        this.listOfCompaniesToDisplay = this.listOfCompanies;
+        this.listOfCompaniesFilter = of(this.listOfCompanies);
         this.clientsService.lilSuccess(`The Company ${companyToDelete.name} has been deleted`)})
       }
     })
   }
+
+
 
 
   // Utilities
@@ -166,7 +165,6 @@ export class CompanyComponent implements OnInit {
   openXlModal(content: TemplateRef<any>): void {
     this.clientsService.openModal(content);
   }
-
 
   checkForm(form: FormGroup): boolean{
     var options: FormField = {
@@ -178,5 +176,23 @@ export class CompanyComponent implements OnInit {
     }
 
     return this.clientsService.checkForm(form, options)
+  }
+
+  
+  // Search
+  // ----------------------
+
+  search(term: string): void {
+    this.searchTerm = term;
+
+    this.listOfCompaniesFilter = of(this.listOfCompanies
+      .filter(comp => comp.name
+        .trim()
+        .toLowerCase()
+        .includes(term.toLowerCase())));
+  }
+  
+  loadPage(): void{
+    this.search(this.searchTerm);
   }
 }

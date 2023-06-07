@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientsComponent } from './clients.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -6,6 +6,7 @@ import { CompanyComponent } from './company/company.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompanyDetailsComponent } from './company-details/company-details.component';
 import { DepartmentDetailsComponent } from './department-details/department-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 const routes: Routes = [
@@ -37,6 +38,7 @@ const routes: Routes = [
     DepartmentDetailsComponent,
   ],
   imports: [
+    NgbModule,
     CommonModule,
     RouterModule.forChild(routes),
     FormsModule,

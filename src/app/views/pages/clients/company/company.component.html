@@ -83,10 +83,7 @@ List companies
                     <th>#</th>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Number</th>
-                    <th>Street</th>
-                    <th>City</th>
-                    <th>Postal<br/>Code</th>
+                    <th>Address</th>
                     <th>Country</th>
                     <th>Nb of<br/>departments</th>
                     <th></th>
@@ -95,14 +92,15 @@ List companies
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let company of listOfCompaniesToDisplay let index = index">
+                  <tr *ngFor="let company of 
+                  (listOfCompaniesFilter 
+                  | async 
+                  | slice: currentPage * 10 - 10: currentPage * 10)
+                  let index = index">
                     <td>{{index+1}}</td>
                     <td>{{company.id}}</td>
                     <td>{{company.name}}</td>
-                    <td>{{company.number}}</td>
-                    <td>{{company.street}}</td>
-                    <td>{{company.city}}</td>
-                    <td>{{company.postalCode}}</td>
+                    <td>{{company.number}} {{company.street}} || {{company.postalCode}} {{company.city}}</td>
                     <td>{{company.country}}</td>
                     <td>{{company.numberOfDepartments}}</td>
                     <td><a type="button" routerLink="/clients/company-details//{{company.id}}" class="btn btn-outline-success">Details</a></td>
@@ -112,6 +110,9 @@ List companies
                 </tbody>
               </table>
             </div>
+
+            <ngb-pagination [collectionSize]="(listOfCompaniesFilter| async)?.length || 0" [(page)]="currentPage" [maxSize]="10" [rotate]="true" [ellipses]="false" [boundaryLinks]="true" (pageChange)="loadPage()">
+            </ngb-pagination>
 
           </div>
         </div>
