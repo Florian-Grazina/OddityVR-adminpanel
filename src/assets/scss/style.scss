@@ -80,44 +80,6 @@
 @import './sidebar';
 @import './layouts';
 
-// components
-@import "./components/badges";
-@import "./components/bootstrap-alert";
-@import "./components/breadcrumbs";
-@import "./components/buttons";
-@import "./components/cards";
-@import "./components/datepicker";
-@import "./components/dropdown";
-@import "./components/forms";
-@import "./components/icons";
-@import "./components/nav";
-@import "./components/pagination";
-@import "./components/rating";
-@import "./components/tables";
-
-// Pages
-@import "./components/dashboard";
-@import "./components/timeline";
-@import "./components/auth";
-@import "./components/chat";
-
-// Email
-@import "./components/email/inbox";
-
-
-// Plugin overrides
-@import "./components/plugin-overrides/full-calendar";
-@import "./components/plugin-overrides/ng-select";
-@import "./components/plugin-overrides/ngx-chips";
-@import "./components/plugin-overrides/ngx-quill";
-@import "./components/plugin-overrides/perfect-scrollbar";
-@import "./components/plugin-overrides/sweet-alert";
-@import "./components/plugin-overrides/dropzone";
-@import "./components/plugin-overrides/angular-archwizard";
-@import "./components/plugin-overrides/apex-charts";
-@import "./components/plugin-overrides/data-tables";
-@import "./components/plugin-overrides/ngx-datatable";
-
 
 // Custom scss
 @import "./custom";
