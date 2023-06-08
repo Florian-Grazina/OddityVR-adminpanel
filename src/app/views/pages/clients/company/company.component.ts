@@ -41,8 +41,6 @@ export class CompanyComponent implements OnInit {
   }
 
 
-
-
   // Create
   // ----------------------
 
@@ -155,8 +153,6 @@ export class CompanyComponent implements OnInit {
       }
     })
   }
-
-
 
 
   // Utilities

@@ -3,6 +3,12 @@
       <i class="feather icon-menu"></i>
     </a>
     <div class="navbar-content">
+      
+      <div id="arrow-container" class="d-flex align-items-center">
+        <i class="feather icon-chevron-left" (click)="goBack()"></i>
+        <i class="feather icon-chevron-right" (click)="goForward()"></i>
+      </div>
+      
       <ul class="navbar-nav">
         <li class="nav-item nav-profile" ngbDropdown>
           <a class="nav-link text-center" ngbDropdownToggle id="profileDropdown">
@@ -15,8 +21,8 @@
                 <img class="wd-80 ht-80 rounded-circle" src="https://via.placeholder.com/80x80" alt="">
               </div>
               <div class="text-center">
-                <p class="tx-16 fw-bolder">Amiah Burton</p>
-                <p class="tx-12 text-muted">amiahburton@gmail.com</p>
+                <p class="tx-16 fw-bolder">Oddity VR</p>
+                <p class="tx-12 text-muted">Test@gmail.com</p>
               </div>
             </div>
             <ul class="list-unstyled p-1">

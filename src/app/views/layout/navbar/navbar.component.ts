@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Inject, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,8 @@ export class NavbarComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document, 
     private renderer: Renderer2,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +38,20 @@ export class NavbarComponent implements OnInit {
     if (!localStorage.getItem('isLoggedin')) {
       this.router.navigate(['/auth/login']);
     }
+  }
+
+  /**
+   * Go to previous page
+   */
+  goBack(): void{
+    this.location.back();
+  }
+
+    /**
+   * Go to next page
+   */
+  goForward(): void{
+    this.location.forward()
   }
 
 }

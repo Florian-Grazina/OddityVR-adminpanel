@@ -77,6 +77,8 @@ export class ClientsService {
   // -----------------
 
   postCreateUser(form: FormCreateUser): Observable<User>{
+    console.log(form);
+    
     return this.httpClient.post<User>(this.apiRoute + "user/create", form);
   }
 

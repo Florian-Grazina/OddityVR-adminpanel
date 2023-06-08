@@ -71,10 +71,18 @@ List companies
             
             <div class="row mb-3">
               <h6 class="card-title col-sm-5">List of Companies</h6>
+
               <div class="col-sm-3">
-                <input type="text" class="form-control" id="search-box" placeholder="Search" #searchBox (input)=search(searchBox.value)>
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="feather icon-search"></i>
+                  </div>
+                  <input type="text" class="form-control" id="search-box" placeholder="Search here..." #searchBox (input)=search(searchBox.value)>
+                </div>
               </div>
+
             </div>
+            
 
             <div class="table-responsive">
               <table class="table">

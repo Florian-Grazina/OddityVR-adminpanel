@@ -1,0 +1,15 @@
+#arrow-container {
+    width: 80px;
+    justify-content: space-between;
+}
+
+div i{
+    font-size: 30px;
+    color: #222;
+    transition: 0.1s;
+}
+
+div i:hover{
+    cursor: pointer;
+    color: #5660d9;
+}
