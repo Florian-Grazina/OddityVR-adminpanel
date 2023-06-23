@@ -12,10 +12,8 @@ export class LoginComponent implements OnInit {
   isLoading: boolean;
   returnUrl: any;
   loggingForm: FormGroup;
-  tokenKey: string;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
     private formBuilder: FormBuilder) { }
@@ -26,15 +24,7 @@ export class LoginComponent implements OnInit {
       password:""
     });
 
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  }
-
-  onLoggedin() {
-    if (localStorage.getItem('isLoggedin') && localStorage.getItem('jwt') != null) {
-      // this.router.navigate([this.returnUrl]);
-      this.router.navigate(['/']);
-    }
   }
 
   tryLogging(): void{
@@ -42,11 +32,10 @@ export class LoginComponent implements OnInit {
     this.authService.postLogging(this.loggingForm.value).subscribe({
       next: (result) => {
         this.isLoading = false;
-        this.tokenKey = result.key;
-        localStorage.setItem('jwt', this.tokenKey)
+        localStorage.setItem('jwt', result.key)
         localStorage.setItem('isLoggedin', 'true');
 
-        this.onLoggedin();
+        this.authService.onLoggedin();  
       },
       error: (err) => {
         this.isLoading = false;

@@ -4,6 +4,7 @@ import { FormLogging, WebToken } from './model/model';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
+import { Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
 
   apiRoute = environment.apiRoute;
-  // apiRoute = "https://localhost:85/api/"
 
   constructor(
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private router: Router) { }
 
 
   postLogging(form: FormLogging): Observable<WebToken>{
@@ -28,5 +29,20 @@ export class AuthService {
       title: 'Wrong credentials, please try again',
       showConfirmButton: false,
       timer: 1500})
+  }
+
+  onLoggedin() {
+    if (localStorage.getItem('isLoggedin') && localStorage.getItem('jwt') != null) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  onLogout() {
+    localStorage.removeItem('isLoggedin');
+    localStorage.removeItem('jwt');
+
+    if (!localStorage.getItem('isLoggedin')) {
+      this.router.navigate(['/auth/login']);
+    }
   }
 }

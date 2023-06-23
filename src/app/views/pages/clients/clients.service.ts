@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable, TemplateRef } from '@angular/core';
 import { ClientRoles, Company, Department, FormCreateCompany, FormCreateDepartment, FormCreateUser, FormField, FormUpdateCompany, FormUpdateDepartment, FormUpdateUser, User} from './model/company.model';
 import Swal from 'sweetalert2';
@@ -14,7 +14,6 @@ import { environment } from 'src/environments/environment';
 export class ClientsService {
 
   apiRoute = environment.apiRoute;
-  // apiRoute = "https://localhost:85/api/"
   
   constructor(
     private httpClient: HttpClient,
@@ -29,11 +28,7 @@ export class ClientsService {
   }
 
   getAllCompanies(): Observable<Company[]>{
-    var reqHeader = new HttpHeaders({ 
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('key')
-   });
-    return this.httpClient.get<Company[]>(this.apiRoute + "company/get_all", {headers: reqHeader});
+    return this.httpClient.get<Company[]>(this.apiRoute + "company/get_all");
   }
 
   getCompanyById(id: number): Observable<Company>{
@@ -154,12 +149,15 @@ export class ClientsService {
   }
 
   checkForm(form: FormGroup, options: FormField): boolean{
-    let errorMessage = "";
 
+    // check empty fields
     if(Object.values(form.value).some((elem: any) => String(elem) == "")){
       this.popUpError("The form is incomplete");
       return false;
     };
+
+    // check fields length
+    let errorMessage = "";
 
     for(var key in options){
       if(form.value[key].length > options[key]){

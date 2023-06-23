@@ -5,6 +5,7 @@ import { ClientsService } from '../clients.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-company-details',
@@ -13,6 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class CompanyDetailsComponent implements OnInit {
   company: Company;
+
   listOfDepartments: Department[];
   departmentForm: FormGroup;
   isLoading: boolean;
