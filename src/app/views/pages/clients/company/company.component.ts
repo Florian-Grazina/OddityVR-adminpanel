@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { ClientsService } from '../clients.service';
-import { Company, FormField } from '../model/company.model';
+import { Company, FormField } from './../model/clients.model';
 import Swal from 'sweetalert2';
 import { Observable, of } from 'rxjs';
 

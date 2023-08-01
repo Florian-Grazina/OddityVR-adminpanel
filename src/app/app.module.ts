@@ -15,6 +15,7 @@ import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptorService } from './views/pages/auth/token-interceptor.service';
+import { TestsComponent } from './views/pages/tests/tests.component';
 
 
 
@@ -22,6 +23,7 @@ import { TokenInterceptorService } from './views/pages/auth/token-interceptor.se
   declarations: [
     AppComponent,
     ErrorPageComponent,
+    TestsComponent,
   ],
   imports: [
     BrowserModule,

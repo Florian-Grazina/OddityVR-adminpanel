@@ -7,7 +7,12 @@ export const MENU: MenuItem[] = [
   },
   {
     label: 'Clients',
-    icon: 'message-square',
+    icon: 'users',
     link: "/clients/company"
+  },
+  {
+    label: 'Tests',
+    icon: 'bar-chart-2',
+    link: "/tests/list-test"
   }
 ];

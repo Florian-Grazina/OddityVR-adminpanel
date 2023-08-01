@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { ClientRoles, Department, FormField, User } from '../model/company.model';
+import { ClientRoles, Department, FormField, User } from './../model/clients.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientsService } from '../clients.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
