@@ -1,0 +1,70 @@
+<br><br><br>
+
+<div class="mb-4">
+	<h2>TESTS DETAILS</h2>
+</div>
+
+<!-- -------------------------------------------------------------
+Tests details
+------------------------------------------------------------- -->
+
+<section>
+	<div *ngIf="testUser" class="row d-flex justify-content-center">
+		<div class="col-md-9 grid-margin stretch-card">
+			<div class="card">
+				<div class="card-body">
+					<h6 class="card-title">User Tests Details</h6>
+						
+					<div class="row mb-3">
+						<p class="col-sm-4 col-form-p">ID</p>
+						<p class="col-sm-2 border">{{testUser.id}}</p>
+					</div>
+
+					<div class="row mb-3">
+						<p class="col-sm-2 col-form-p">Email</p>
+						<p class="col-sm-4 border">{{testUser.email}}</p>
+
+                        <p class="col-sm-2 col-form-p">Company</p>
+                        <p class="col-sm-4 border">{{testUser.company}}</p>
+					</div>
+                    
+                    <div class="row mb-3">
+                        <p class="col-sm-2 col-form-p">Role</p>
+                        <p class="col-sm-4 border">{{testUser.role}}</p>
+
+						<p class="col-sm-2 col-form-p">Department</p>
+						<p class="col-sm-4 border">{{testUser.department}}</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- -------------------------------------------------------------
+Loader
+------------------------------------------------------------- -->
+
+<section>
+  <div *ngIf="isLoading" class="row d-flex justify-content-center">
+    <div  class="card col-sm-6">
+      <div class="stretch-card">
+          <div class="card-body d-flex">
+            <strong>Loading...</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="retryFetch" class="row d-flex justify-content-center">
+    <div  class="card col-sm-6">
+      <div class="stretch-card">
+          <div class="card-body d-flex">
+          <a type="button" (click)="getTestUser()" class="btn btn-outline-info">Retry</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

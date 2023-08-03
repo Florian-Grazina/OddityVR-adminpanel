@@ -1,10 +1,9 @@
 // Users
 // ------------------
-export interface User {
+export interface TestUser {
     id: number,
     email: string,
     role: string,
     company: string,
-    departement: string,
-    numberOfTests: number
+    department: string,
 }

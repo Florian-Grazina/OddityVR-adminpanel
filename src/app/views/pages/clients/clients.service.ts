@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable, TemplateRef } from '@angular/core';
 import { ClientRoles, Company, Department, FormCreateCompany, FormCreateDepartment, FormCreateUser, FormField, FormUpdateCompany, FormUpdateDepartment, FormUpdateUser, User} from './model/clients.model';
-import Swal from 'sweetalert2';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AlertsService } from '../alerts.service';
 
 
 @Injectable({
@@ -17,7 +17,8 @@ export class ClientsService {
   
   constructor(
     private httpClient: HttpClient,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private alertsService: AlertsService) { }
 
 
   // CRUD Company
@@ -98,47 +99,6 @@ export class ClientsService {
 }
 
 
-  // Utilities - Alerts
-  //-----------------
-  
-  lilSuccess(message: string): void{
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer)
-        toast.addEventListener('mouseleave', Swal.resumeTimer)
-      }
-    })
-  
-    Toast.fire({
-      icon: 'success',
-      title: message
-    })
-  }
-
-  popUpSuccess(message: string): void{
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: message,
-      showConfirmButton: false,
-      timer: 1500})
-  }
-
-  popUpError(message: string): void{
-    Swal.fire({
-      position: 'top-end',
-      icon: 'error',
-      title: message,
-      showConfirmButton: false,
-      timer: 2500})
-  }
-  
-
   // Utilities - Forms
   //-----------------
   
@@ -152,7 +112,7 @@ export class ClientsService {
 
     // check empty fields
     if(Object.values(form.value).some((elem: any) => String(elem) == "")){
-      this.popUpError("The form is incomplete");
+      this.alertsService.popUpError("The form is incomplete");
       return false;
     };
 
@@ -169,7 +129,7 @@ export class ClientsService {
       return true;
     }
     else {
-      this.popUpError(errorMessage);
+      this.alertsService.popUpError(errorMessage);
       return false;
     }
   }

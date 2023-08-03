@@ -5,6 +5,7 @@ import { ClientsService } from '../clients.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { AlertsService } from '../../alerts.service';
 
 @Component({
   selector: 'app-department-details',
@@ -25,7 +26,7 @@ export class DepartmentDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private clientsService: ClientsService,
     private formBuilder: FormBuilder,
-  ) { }
+    private alertsService: AlertsService) { }
 
   ngOnInit(): void {
     this.getDepartment();
@@ -54,11 +55,11 @@ export class DepartmentDetailsComponent implements OnInit {
         next: (result) => {
           this.userForm.reset();
           this.listOfUsers.push(result);
-          this.clientsService.popUpSuccess("The User has been created")
+          this.alertsService.popUpSuccess("The User has been created")
           this.department.numberOfEmployees ++;
         },
         error: (err) => {
-          this.clientsService.popUpError("Something went wrong, please try again");
+          this.alertsService.popUpError("Something went wrong, please try again");
         }
       })
     }
@@ -84,7 +85,7 @@ export class DepartmentDetailsComponent implements OnInit {
     error: (err) => {
       this.isLoading = false;
       this.retryFetch = true;
-      this.clientsService.popUpError("An error has occured, please try reloading");
+      this.alertsService.popUpError("An error has occured, please try reloading");
     }
     });
   }
@@ -99,7 +100,7 @@ export class DepartmentDetailsComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.retryFetch = true;
-      this.clientsService.popUpError("An error has occured, please try reloading");
+      this.alertsService.popUpError("An error has occured, please try reloading");
       }
     });
   }
@@ -134,12 +135,12 @@ export class DepartmentDetailsComponent implements OnInit {
         next: (result) => {
           this.isLoading = false;
           this.listOfUsers[this.userForm.value.index] = result;
-          this.clientsService.lilSuccess("The user has been updated")
+          this.alertsService.lilSuccess("The user has been updated")
         },
         error: (err) => {
           this.isLoading = false;
           this.retryFetch = true;
-          this.clientsService.popUpError("Something went wrong, please try again")
+          this.alertsService.popUpError("Something went wrong, please try again")
         }
       })
     }
@@ -167,7 +168,7 @@ export class DepartmentDetailsComponent implements OnInit {
       .subscribe(result => {
         this.listOfUsers = this.listOfUsers.filter(user => user != userToDelete);
         this.department.numberOfEmployees --;
-        this.clientsService.lilSuccess(`The User ${userToDelete.email} has been deleted`)})
+        this.alertsService.lilSuccess(`The User ${userToDelete.email} has been deleted`)})
       }
     })
   }

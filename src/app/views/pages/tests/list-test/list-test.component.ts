@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../model/tests.model';
+import { TestUser } from '../model/tests.model';
+import { TestsService } from '../tests.service';
+import { AlertsService } from '../../alerts.service';
 
 @Component({
   selector: 'app-list-test',
@@ -8,18 +10,34 @@ import { User } from '../model/tests.model';
 })
 export class ListTestComponent implements OnInit {
 
-  listOfUsers: User[];
+  listOfUsers: TestUser[];
 
   isLoading: boolean;
   retryFetch: boolean;
 
-  constructor() { }
+  constructor(
+    private testService: TestsService,
+    private alertsService: AlertsService) { }
 
   ngOnInit(): void {
+    this.getTests();
   }
 
 
   getTests(): void{
-    return;
+    this.retryFetch = false;
+    this.isLoading = true;
+
+    this.testService.getAllTestUsers().subscribe({
+      next: (result) => {
+        this.isLoading = false;
+        this.listOfUsers = result;
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.retryFetch = true;
+        this.alertsService.popUpError("An error has occured, please try reloading")
+      }
+    })
   }
 }

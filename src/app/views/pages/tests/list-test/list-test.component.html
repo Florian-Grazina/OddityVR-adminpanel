@@ -27,11 +27,19 @@ List Users
                   <th>Company</th>
                   <th>Department</th>
                   <th>Role</th>
-                  <th>Nb of<br/>Tests</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
-                
+                <tr *ngFor="let user of listOfUsers let index = index">
+                  <td>{{index + 1}}</td>
+                  <td>{{user.id}}</td>
+                  <td>{{user.email}}</td>
+                  <td>{{user.company}}</td>
+                  <td>{{user.department}}</td>
+                  <td>{{user.role}}</td>
+                  <td><a type="button" routerLink="/tests/test-details/{{user.id}}" class="btn btn-outline-success">Tests Details</a></td>
+                </tr>
               </tbody>
             </table>
           </div>

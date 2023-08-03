@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Observable, map } from 'rxjs';
+import { AlertsService } from '../../alerts.service';
 
 @Component({
   selector: 'app-company-details',
@@ -24,7 +25,7 @@ export class CompanyDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private clientsService: ClientsService,
     private formBuilder: FormBuilder,
-  ) { }
+    private alertsService: AlertsService) { }
 
   ngOnInit(): void {
     this.getCompany();
@@ -50,11 +51,11 @@ export class CompanyDetailsComponent implements OnInit {
         if (result.id != 0){
           this.departmentForm.reset();
           this.listOfDepartments.push(result);
-          this.clientsService.popUpSuccess("The Department has been created");
+          this.alertsService.popUpSuccess("The Department has been created");
           this.company.numberOfDepartments ++;
         }
         else{
-          this.clientsService.popUpError("Something went wrong, please try again");
+          this.alertsService.popUpError("Something went wrong, please try again");
         }
       })
     }
@@ -80,7 +81,7 @@ export class CompanyDetailsComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.retryFetch = true;
-        this.clientsService.popUpError("An error has occured, please try reloading")
+        this.alertsService.popUpError("An error has occured, please try reloading")
       }
     });
   }
@@ -94,7 +95,7 @@ export class CompanyDetailsComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.retryFetch = true;
-        this.clientsService.popUpError("An error has occured, please try reloading")
+        this.alertsService.popUpError("An error has occured, please try reloading")
       }
     });
   }
@@ -120,10 +121,10 @@ export class CompanyDetailsComponent implements OnInit {
         // verify the update has been successful
         if(result.id != 0){
           this.listOfDepartments[this.departmentForm.value.index] = result;
-          this.clientsService.lilSuccess("The department has been updated")
+          this.alertsService.lilSuccess("The department has been updated")
         }
         else {
-          this.clientsService.popUpError("Something went wrong, please try again")
+          this.alertsService.popUpError("Something went wrong, please try again")
         }
       })
     }
@@ -135,7 +136,7 @@ export class CompanyDetailsComponent implements OnInit {
   deleteDepartment(departmentToDelete: Department): void{
 
     if(departmentToDelete.numberOfEmployees > 0){
-      this.clientsService.popUpError("Employees are affected to the department.\nYou need to delete them first");
+      this.alertsService.popUpError("Employees are affected to the department.\nYou need to delete them first");
       return
     }
 
@@ -156,7 +157,7 @@ export class CompanyDetailsComponent implements OnInit {
       .subscribe(result => {
         this.listOfDepartments = this.listOfDepartments.filter(department => department != departmentToDelete);
         this.company.numberOfDepartments --;
-        this.clientsService.lilSuccess(`The Company ${departmentToDelete.name} has been deleted`)})
+        this.alertsService.lilSuccess(`The Company ${departmentToDelete.name} has been deleted`)})
       }
     })
   }
