@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestUser } from '../model/tests.model';
+import { Test, TestUser } from '../model/tests.model';
 import { ActivatedRoute } from '@angular/router';
 import { AlertsService } from '../../alerts.service';
 import { TestsService } from '../tests.service';
@@ -11,7 +11,7 @@ import { TestsService } from '../tests.service';
 })
 export class TestDetailsComponent implements OnInit {
   testUser: TestUser;
-  // listOfTests: Test[];
+  listOfTests: Test[];
 
   isLoading: boolean;
   retryFetch: boolean;
@@ -38,9 +38,7 @@ export class TestDetailsComponent implements OnInit {
       next: (result) => {
         this.isLoading = false;
         this.testUser = result;
-        
-        // get departments once the company is fetched
-        // this.getDepartmentsByCompanyId(result);
+
       },
       error: (err) => {
         this.isLoading = false;

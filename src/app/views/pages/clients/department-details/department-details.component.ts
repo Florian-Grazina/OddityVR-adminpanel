@@ -59,7 +59,7 @@ export class DepartmentDetailsComponent implements OnInit {
           this.department.numberOfEmployees ++;
         },
         error: (err) => {
-          this.alertsService.popUpError("Something went wrong, please try again");
+          this.alertsService.popUpError(err.error);
         }
       })
     }
@@ -107,7 +107,6 @@ export class DepartmentDetailsComponent implements OnInit {
 
   // Update
   // ----------------------
-
   initUpdateForm(user: User, index: number): void{
     this.defaultSelected = user.roleId;
     this.formTitle = "Update User";

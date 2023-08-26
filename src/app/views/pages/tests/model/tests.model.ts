@@ -7,3 +7,8 @@ export interface TestUser {
     company: string,
     department: string,
 }
+
+export interface Test {
+    id: number,
+    [softskill: string] : number
+}
