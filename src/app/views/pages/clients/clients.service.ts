@@ -96,7 +96,7 @@ export class ClientsService {
 
   getClientRoles(): Observable<ClientRoles[]>{
     return this.httpClient.get<ClientRoles[]>(this.apiRoute + `role/get_client_roles`)
-}
+  }
 
 
   // Utilities - Forms

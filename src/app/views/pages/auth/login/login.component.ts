@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       next: (result) => {
         this.isLoading = false;
         localStorage.setItem('jwt', result.key)
-        localStorage.setItem('isLoggedin', 'true');
 
         this.authService.onLoggedin();  
       },

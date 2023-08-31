@@ -111,7 +111,7 @@ Create User
         <div class="row mb-3">
           <label for="email" class="col-sm-3 col-form-label">Email</label>
           <div class="col-sm-6">
-            <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email">
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Email" >
           </div>
         </div>
 
@@ -125,7 +125,14 @@ Create User
         <div class="row mb-3">
           <label for="password" class="col-sm-3 col-form-label">Password</label>
           <div class="col-sm-6">
-            <input type="text" class="form-control" id="password" formControlName="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password">
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="confirmPassword" class="col-sm-3 col-form-label">Confirm Password</label>
+          <div class="col-sm-6">
+            <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
           </div>
         </div>
 

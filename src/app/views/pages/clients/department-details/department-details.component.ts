@@ -44,11 +44,15 @@ export class DepartmentDetailsComponent implements OnInit {
       roleId: this.defaultSelected,
       email: "",
       password: "",
+      confirmPassword: "",
       birthdate: "",
     })
   }
 
   createUser(): void{
+    if(this.userForm.value.password != this.userForm.value.confirmPassword)
+      return this.alertsService.lilError("The passwords doesn't match");
+
     if (this.checkForm(this.userForm)){
 
       this.clientsService.postCreateUser(this.userForm.value).subscribe({
@@ -67,7 +71,6 @@ export class DepartmentDetailsComponent implements OnInit {
 
   // Read
   // ----------------------
-
   getDepartment(): void{
     this.retryFetch = false;
     this.isLoading = true;

@@ -32,17 +32,13 @@ export class AuthService {
   }
 
   onLoggedin() {
-    if (localStorage.getItem('isLoggedin') && localStorage.getItem('jwt') != null) {
+    if (localStorage.getItem('jwt') != null) {
       this.router.navigate(['/']);
     }
   }
 
   onLogout() {
-    localStorage.removeItem('isLoggedin');
     localStorage.removeItem('jwt');
-
-    if (!localStorage.getItem('isLoggedin')) {
-      this.router.navigate(['/auth/login']);
-    }
+    this.router.navigate(['/auth/login']);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
+import { ClientsService } from '../../pages/clients/clients.service';
 
 @Component({
   selector: 'app-base',
@@ -10,7 +11,9 @@ export class BaseComponent implements OnInit {
 
   isLoading: boolean;
 
-  constructor(private router: Router) { 
+  constructor(
+    private router: Router,
+    private clientsService: ClientsService) { 
 
     // Spinner for lazyload modules
     router.events.forEach((event) => { 
@@ -20,11 +23,13 @@ export class BaseComponent implements OnInit {
         this.isLoading = false;
       }
     });
-
-    
   }
 
   ngOnInit(): void {
+    this.isJwtValid();
   }
-
+  
+  isJwtValid():void{
+    this.clientsService.getClientRoles().subscribe();
+  }
 }
